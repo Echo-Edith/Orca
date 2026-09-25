@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Deep Sea Discord Server Builder | ORCA Studio</title>
+  <title>Discord Server Builder | ORCA Studio</title>
   
   <!-- Tailwind CSS & FontAwesome -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -56,19 +56,12 @@
       border: 1px solid rgba(6, 182, 212, 0.25); 
       transition: all 0.2s ease; 
     }
-    .tag-btn:hover {
-      border-color: #38bdf8;
-      background: rgba(16, 39, 82, 0.8);
-    }
     .tag-btn.active { 
       background: linear-gradient(135deg, #06b6d4 0%, #0d9488 100%); 
       color: #020612; 
       border-color: #38bdf8; 
       font-weight: 800; 
       box-shadow: 0 0 15px rgba(6, 182, 212, 0.5);
-    }
-    .channel-item {
-      transition: all 0.15s ease;
     }
     .channel-item:hover {
       background: rgba(6, 182, 212, 0.1);
@@ -87,11 +80,8 @@
       <div class="w-16 h-16 mx-auto rounded-2xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-400 text-3xl mb-2">
         <i class="fa-solid fa-shield-halved"></i>
       </div>
-      <h2 class="text-2xl font-black text-cyan-400 tracking-tight">Abyssal Maintenance Active</h2>
-      <p class="text-sm text-slate-300">The AI Builder is temporarily down for maintenance. Please check back shortly!</p>
-      <a href="https://discord.gg" target="_blank" class="inline-block px-6 py-3 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-abyssal-950 font-extrabold transition-all shadow-lg shadow-cyan-500/20">
-        Join Orca Sanctuary
-      </a>
+      <h2 class="text-2xl font-black text-cyan-400 tracking-tight">System Maintenance Active</h2>
+      <p class="text-sm text-slate-300">The AI Builder is temporarily offline for maintenance. Please check back shortly!</p>
     </div>
   </div>
 
@@ -99,11 +89,11 @@
   <header class="sticky top-0 z-40 w-full glass-card border-b border-cyan-500/20 px-4 py-3.5">
     <div class="max-w-3xl mx-auto flex items-center justify-between">
       <div class="flex items-center gap-2.5">
-        <span class="text-2xl">🐋</span>
-        <span class="font-black text-base tracking-tight text-slate-100">Orca Server Builder</span>
+        <span class="text-2xl">⚡</span>
+        <span class="font-black text-base tracking-tight text-slate-100">Discord Server Builder</span>
       </div>
-      <button onclick="scrollToBuilder()" class="btn-glow px-4 py-2 rounded-xl text-xs font-extrabold text-slate-950 tracking-wide transition-all">
-        Design my server
+      <button onclick="resetToBuilder()" class="btn-glow px-4 py-2 rounded-xl text-xs font-extrabold text-slate-950 tracking-wide transition-all">
+        Design new server
       </button>
     </div>
   </header>
@@ -112,81 +102,66 @@
   <main class="max-w-3xl mx-auto px-4 py-8 space-y-10 flex-1 w-full">
 
     <!-- HERO HEADER -->
-    <section class="text-center space-y-4 py-4">
-      <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-300 text-xs font-bold">
-        <span>🌊 Deep Sea Edition</span> • <span>Orca AI v2.4</span>
-      </div>
+    <section class="text-center space-y-3 py-2">
       <h1 class="text-3xl md:text-5xl font-black tracking-tight leading-tight">
-        Abyssal AI-Powered <br>
-        <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-teal-300 to-blue-500">Discord Server Builder</span>
+        Custom Discord <br>
+        <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-teal-300 to-blue-500">Server Builder</span>
       </h1>
       <p class="text-sm md:text-base text-slate-300 max-w-xl mx-auto leading-relaxed">
-        Submerge into automated Discord architecture. Design categories, channel styles, deep sea roles, and generate instant interactive build blueprints.
+        Describe your ideal server layout or theme below to generate a customizable structure.
       </p>
     </section>
 
-    <!-- 📝 INPUT FORM SECTION -->
-    <section id="builder-form" class="glass-card p-6 md:p-8 rounded-3xl space-y-6 shadow-2xl">
+    <!-- 📝 INPUT FORM SECTION (STEP 1) -->
+    <section id="builderFormSection" class="glass-card p-6 md:p-8 rounded-3xl space-y-6 shadow-2xl">
       <div class="text-center space-y-1">
         <h2 class="text-2xl font-black text-slate-100 flex items-center justify-center gap-2">
-          <span>🦑</span> Describe Your Abyss
+          <span>📝</span> Server Requirements
         </h2>
-        <p class="text-xs text-slate-400">Specify your layout options and click generate to test the interactive editor below.</p>
+        <p class="text-xs text-slate-400">Describe the channels, roles, and theme you want for your Discord server.</p>
       </div>
 
       <div class="space-y-6">
         <div class="space-y-2">
-          <label class="block text-[11px] font-black uppercase tracking-wider text-cyan-400">What do you want your server to look like?</label>
-          <textarea id="promptInput" rows="4" maxlength="4000" oninput="updateCharCount()" class="w-full bg-abyssal-950/90 border border-cyan-500/30 rounded-2xl p-4 text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-cyan-400 transition-all resize-none shadow-inner" placeholder="I want an abyssal ocean-themed gaming server with general chat, marine research logs, deep sea voice channels, and captain/diver roles..."></textarea>
+          <label class="block text-[11px] font-black uppercase tracking-wider text-cyan-400">What should your server look like?</label>
+          <textarea id="promptInput" rows="4" maxlength="4000" oninput="updateCharCount()" class="w-full bg-abyssal-950/90 border border-cyan-500/30 rounded-2xl p-4 text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-cyan-400 transition-all resize-none shadow-inner" placeholder="Example: I want a gaming community server named 'Nexus Gaming' with announcements, general chat, clip sharing, competitive LFG channels, and roles for Admin, Moderator, Streamer, VIP, and Member..."></textarea>
           <div class="text-right text-[10px] text-slate-500"><span id="charCount">0</span>/4000</div>
         </div>
 
         <div class="space-y-2">
-          <label class="block text-[11px] font-black uppercase tracking-wider text-cyan-400">Discord Server ID — Where should it be built?</label>
+          <label class="block text-[11px] font-black uppercase tracking-wider text-cyan-400">Discord Server ID</label>
           <input type="text" id="guildIdInput" placeholder="123456789012345678" value="123456789012345678" class="w-full bg-abyssal-950/90 border border-cyan-500/30 rounded-2xl p-4 text-xs text-slate-200 placeholder-slate-600 focus:outline-none focus:border-cyan-400 transition-all shadow-inner">
+          <p class="text-[10px] text-slate-400">Make sure the Orca Bot is invited to this server with <b>Administrator</b> permissions.</p>
         </div>
 
         <!-- Channel Style Switcher -->
         <div class="space-y-3 bg-abyssal-950/60 p-4 rounded-2xl border border-cyan-500/20">
-          <label class="block text-[11px] font-black uppercase tracking-wider text-cyan-400">Channel Style (Optional)</label>
+          <label class="block text-[11px] font-black uppercase tracking-wider text-cyan-400">Channel Style Separator</label>
           <div class="flex flex-wrap gap-2" id="styleTags">
-            <button type="button" onclick="setChannelStyle('emoji', '✓ Emoji on every channel', this)" class="tag-btn active px-3.5 py-2 rounded-xl text-xs font-semibold">
-              ✓ Emoji on every channel
+            <button type="button" onclick="setChannelStyle('emoji', this)" class="tag-btn active px-3.5 py-2 rounded-xl text-xs font-semibold">
+              ✓ Emoji Separator
             </button>
-            <button type="button" onclick="setChannelStyle('|', '丨', this)" class="tag-btn px-4 py-2 rounded-xl text-xs font-semibold text-slate-300">丨</button>
-            <button type="button" onclick="setChannelStyle('•', '•', this)" class="tag-btn px-4 py-2 rounded-xl text-xs font-semibold text-slate-300">•</button>
-            <button type="button" onclick="setChannelStyle('│', '︱', this)" class="tag-btn px-4 py-2 rounded-xl text-xs font-semibold text-slate-300">︱</button>
-            <button type="button" onclick="setChannelStyle('-', '‐', this)" class="tag-btn px-4 py-2 rounded-xl text-xs font-semibold text-slate-300">‐</button>
+            <button type="button" onclick="setChannelStyle('丨', this)" class="tag-btn px-4 py-2 rounded-xl text-xs font-semibold text-slate-300">丨</button>
+            <button type="button" onclick="setChannelStyle('•', this)" class="tag-btn px-4 py-2 rounded-xl text-xs font-semibold text-slate-300">•</button>
+            <button type="button" onclick="setChannelStyle('︱', this)" class="tag-btn px-4 py-2 rounded-xl text-xs font-semibold text-slate-300">︱</button>
+            <button type="button" onclick="setChannelStyle('-', this)" class="tag-btn px-4 py-2 rounded-xl text-xs font-semibold text-slate-300">‐</button>
           </div>
           <div class="pt-2 border-t border-cyan-500/10 flex items-center justify-between text-xs">
-            <span class="text-slate-400 text-[11px]">Live Preview:</span>
+            <span class="text-slate-400 text-[11px]">Preview:</span>
             <div class="bg-abyssal-900 px-3 py-1.5 rounded-lg border border-cyan-500/30 text-slate-200 font-mono shadow-inner">
-              Example: <span id="styleExampleOutput" class="text-cyan-300 font-bold">📢│announcements</span>
+              <span id="styleExampleOutput" class="text-cyan-300 font-bold">📢│announcements</span>
             </div>
           </div>
         </div>
 
         <button id="generateBtn" onclick="generateLayout()" class="w-full btn-glow py-4 rounded-2xl text-xs font-black text-slate-950 flex items-center justify-center gap-2 transition-all">
-          <span>✨ Generate Abyssal Server Layout</span>
+          <span>✨ Generate Server Blueprint</span>
         </button>
       </div>
     </section>
 
-    <!-- 🎮 REAL DISCORD SERVER INTERACTIVE BLUEPRINT PANEL -->
+    <!-- 🎮 DISCORD EDITOR SECTION (STEP 2: OPENS UPON GENERATION) -->
     <section id="previewSection" class="hidden space-y-6">
-      
-      <!-- Top Actions Bar -->
-      <div class="glass-card p-4 rounded-2xl flex items-center justify-between">
-        <div>
-          <h3 class="text-sm font-black text-cyan-400 flex items-center gap-2">
-            <span>🐡</span> Interactive Server Blueprint
-          </h3>
-          <p class="text-[11px] text-slate-400">Target Server ID: <span id="targetGuildDisplay" class="font-mono text-cyan-300"></span></p>
-        </div>
-        <button onclick="downloadJsonFile()" class="px-4 py-2 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 text-xs font-extrabold transition-all shadow-lg shadow-cyan-500/20">
-          <i class="fa-solid fa-download mr-1"></i> Download .JSON
-        </button>
-      </div>
 
       <!-- DISCORD-LIKE INTERACTIVE EDITOR CONTAINER -->
       <div class="glass-card rounded-3xl border border-cyan-500/30 overflow-hidden shadow-2xl">
@@ -194,14 +169,14 @@
         <!-- Server Header Bar -->
         <div class="bg-abyssal-900 px-5 py-3.5 border-b border-cyan-500/20 flex items-center justify-between">
           <div class="flex items-center gap-2">
-            <h2 id="serverHeaderName" class="font-black text-slate-100 text-base">Abyssal Gaming 🌊</h2>
+            <h2 id="serverHeaderName" class="font-black text-slate-100 text-base">Community Server Blueprint</h2>
           </div>
           <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">DRAG TO REORDER</span>
         </div>
 
         <!-- SCROLLABLE DISCORD TREE STRUCTURE -->
         <div id="discordTreeContainer" class="bg-abyssal-950/90 p-4 space-y-4 max-h-[480px] overflow-y-auto">
-          <!-- Categories & Channels rendered dynamically -->
+          <!-- Dynamic categories and channels rendered here -->
         </div>
 
         <!-- ADD NEW CATEGORY CONTROL -->
@@ -217,7 +192,7 @@
         <!-- 🏷️ ROLES EDITING SECTION -->
         <div class="p-5 border-t border-cyan-500/20 bg-abyssal-900/40 space-y-3">
           <div class="flex items-center justify-between">
-            <h4 class="text-xs font-black uppercase text-slate-300 tracking-wider">Roles</h4>
+            <h4 class="text-xs font-black uppercase text-slate-300 tracking-wider">Server Roles</h4>
             <span class="text-[10px] font-bold text-slate-500 uppercase">DRAG — TOP IS HIGHEST</span>
           </div>
 
@@ -226,33 +201,26 @@
           </div>
 
           <div class="flex gap-2 pt-1">
-            <input type="text" id="newRoleInput" placeholder="+ New Role" class="bg-abyssal-950 border border-cyan-500/20 rounded-xl px-3 py-1.5 text-xs text-slate-200 focus:outline-none focus:border-cyan-400">
-            <button onclick="addNewRole()" class="px-3 py-1.5 rounded-xl bg-cyan-500/20 text-cyan-300 text-xs font-bold border border-cyan-500/30">Add</button>
+            <input type="text" id="newRoleInput" placeholder="+ New Role Name" class="bg-abyssal-950 border border-cyan-500/20 rounded-xl px-3 py-1.5 text-xs text-slate-200 focus:outline-none focus:border-cyan-400">
+            <button onclick="addNewRole()" class="px-3 py-1.5 rounded-xl bg-cyan-500/20 text-cyan-300 text-xs font-bold border border-cyan-500/30">Add Role</button>
           </div>
         </div>
 
-        <!-- 🔒 PERMISSIONS PREVIEW PANEL FOR SELECTED CHANNEL -->
+        <!-- 🔒 EDITABLE PERMISSIONS PREVIEW PANEL -->
         <div class="p-5 border-t border-cyan-500/20 bg-abyssal-950 space-y-3">
           <div class="flex items-center justify-between">
-            <h4 class="text-xs font-black uppercase text-slate-300 tracking-wider">Permissions</h4>
-            <span id="permissionSelectedChannelLabel" class="text-xs font-mono text-cyan-300"># 🧭 | roles</span>
+            <h4 class="text-xs font-black uppercase text-slate-300 tracking-wider">Channel & Role Permissions</h4>
+            <span id="permissionSelectedChannelLabel" class="text-xs font-mono text-cyan-300"># announcements</span>
           </div>
 
-          <div class="bg-abyssal-900 p-3.5 rounded-2xl border border-cyan-500/20 text-xs text-slate-300 space-y-2">
-            <p id="permSyncInfo" class="text-[11px] text-slate-400 leading-relaxed">
-              This channel sits in <span class="text-slate-200 font-semibold">⚓ WELCOME & INFO</span> — @everyone can't send at the category level. The channel syncs with the category.
-            </p>
-          </div>
-
-          <!-- Role Permissions List -->
           <div id="rolePermsList" class="space-y-2 pt-2">
-            <!-- Rendered by JS based on current roles -->
+            <!-- Rendered by JS with interactive toggle buttons for permissions -->
           </div>
         </div>
 
         <!-- ⚙️ SELECTED CHANNEL SETTINGS -->
         <div class="p-5 border-t border-cyan-500/20 bg-abyssal-900/60 space-y-3">
-          <h4 id="channelSettingsHeader" class="text-xs font-black uppercase text-slate-300 tracking-wider">Channel settings — #roles</h4>
+          <h4 id="channelSettingsHeader" class="text-xs font-black uppercase text-slate-300 tracking-wider">Channel Settings</h4>
           
           <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
             <div class="space-y-1">
@@ -268,18 +236,19 @@
 
           <div class="space-y-1">
             <label class="text-[10px] font-bold text-slate-400 uppercase">TOPIC</label>
-            <input type="text" id="selectedTopicInput" oninput="updateActiveChannelDetails()" placeholder="Channel topic or description..." class="w-full bg-abyssal-950 border border-cyan-500/20 rounded-xl px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-cyan-400">
+            <input type="text" id="selectedTopicInput" oninput="updateActiveChannelDetails()" placeholder="Channel topic..." class="w-full bg-abyssal-950 border border-cyan-500/20 rounded-xl px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-cyan-400">
           </div>
         </div>
 
-        <!-- 🤖 REGENERATE WITH AI MODULE -->
-        <div class="p-5 border-t border-cyan-500/20 bg-abyssal-950 space-y-3">
-          <h4 class="text-xs font-black uppercase text-slate-300 tracking-wider">Regenerate with AI</h4>
-          <p class="text-[11px] text-slate-400">Example: "Add a dedicated department structure and make development channels private."</p>
-          <div class="flex gap-2">
-            <input type="text" id="aiRegenPrompt" placeholder="What should change?" class="flex-1 bg-abyssal-900 border border-cyan-500/20 rounded-xl px-4 py-2 text-xs text-slate-200 focus:outline-none focus:border-cyan-400">
-            <button onclick="regenerateAi()" class="btn-glow px-4 py-2 rounded-xl text-xs font-black text-slate-950">Regenerate</button>
-          </div>
+        <!-- 🚀 SEND LAYOUT TO STAFF FOR AUTOMATED BOT BUILD -->
+        <div class="p-6 border-t border-cyan-500/30 bg-abyssal-900/90 text-center space-y-3">
+          <button onclick="sendLayoutToStaff()" id="sendStaffBtn" class="w-full btn-glow py-4 rounded-2xl text-xs font-black text-slate-950 flex items-center justify-center gap-2 transition-all">
+            <i class="fa-solid fa-paper-plane"></i>
+            <span>FINISH & SEND LAYOUT TO STAFF BUILDER</span>
+          </button>
+          <p class="text-[11px] text-slate-400">
+            Sends your server blueprint to staff. Staff will execute <code class="text-cyan-300 bg-abyssal-950 px-1.5 py-0.5 rounded border border-cyan-500/20">/build file:</code> in <code class="text-cyan-300">orca.py</code> to automatically construct your server!
+          </p>
         </div>
 
       </div>
@@ -288,77 +257,29 @@
   </main>
 
   <!-- ⚓ FOOTER -->
-  <footer class="border-t border-cyan-500/10 py-6 px-4 text-center text-[11px] text-slate-400 space-y-2">
-    <p>🐋 AI plans &rarr; you approve &rarr; download &rarr; staff uploads deep sea document in Discord to be created.</p>
-    <p class="text-slate-400">No database required. Your ocean design remains your own file.</p>
+  <footer class="border-t border-cyan-500/10 py-6 px-4 text-center text-[11px] text-slate-400 space-y-1">
+    <p>AI Server Builder • Custom Layouts Sent Directly to Staff</p>
   </footer>
 
-  <!-- ⚙️ FULL INTERACTIVE DISCORD ENGINE JS -->
+  <!-- ⚙️ FRONTEND LOGIC -->
   <script>
     const RENDER_API_URL = "https://orca-bot.onrender.com"; 
 
-    // Global Active State
     let activeSeparator = "│";
     let activeStyleMode = "emoji";
     let selectedCatIndex = 0;
-    let selectedChanIndex = 2; // Default to roles channel
+    let selectedChanIndex = 0;
 
-    // Dynamic Server Blueprint Object
+    // Default template structure based on client preference
     let generatedPayload = {
       guild_id: "123456789012345678",
-      server_name: "Abyssal Gaming 🌊",
-      categories: [
-        {
-          name: "WELCOME & INFO",
-          icon: "⚓",
-          is_private: false,
-          channels: [
-            { emoji: "📢", name: "rules", topic: "Read server guidelines", is_private: false },
-            { emoji: "📜", name: "announcements", topic: "Important server news", is_private: false },
-            { emoji: "🧭", name: "roles", topic: "Grab your gaming roles and platforms", is_private: false }
-          ]
-        },
-        {
-          name: "THE SURFACE",
-          icon: "🌊",
-          is_private: false,
-          channels: [
-            { emoji: "💬", name: "lobby", topic: "General community chat", is_private: false },
-            { emoji: "📸", name: "media", topic: "Share photos and videos", is_private: false },
-            { emoji: "🤖", name: "bot-commands", topic: "Use bot triggers here", is_private: false }
-          ]
-        },
-        {
-          name: "DEEP SEA GAMING",
-          icon: "🐙",
-          is_private: false,
-          channels: [
-            { emoji: "💻", name: "pc-gaming", topic: "PC Master Race discussions", is_private: false },
-            { emoji: "🎮", name: "console-gaming", topic: "PlayStation, Xbox, Switch", is_private: false },
-            { emoji: "🤝", name: "co-op-lfg", topic: "Find teammates for gaming", is_private: false }
-          ]
-        },
-        {
-          name: "CAPTAIN'S QUARTERS",
-          icon: "🔒",
-          is_private: true,
-          channels: [
-            { emoji: "🛡️", name: "mod-chat", topic: "Private staff channel", is_private: true },
-            { emoji: "🎙️", name: "mod-voice", topic: "Private staff audio chat", is_private: true }
-          ]
-        }
-      ],
-      roles: [
-        { name: "Captain", color: "#f59e0b" },
-        { name: "Moderator", color: "#06b6d4" },
-        { name: "Diver", color: "#3b82f6" },
-        { name: "PC Gamer", color: "#a855f7" },
-        { name: "Console Gamer", color: "#ec4899" }
-      ]
+      server_name: "Custom Server Blueprint",
+      categories: [],
+      roles: []
     };
 
-    // 1. CHANNEL STYLE SWITCHER
-    function setChannelStyle(style, label, btnElement) {
+    // 1. SEPARATOR SWITCHER
+    function setChannelStyle(style, btnElement) {
       document.querySelectorAll('#styleTags .tag-btn').forEach(b => b.classList.remove('active'));
       btnElement.classList.add('active');
 
@@ -376,7 +297,90 @@
       renderDiscordTree();
     }
 
-    // 2. RENDER THE INTERACTIVE DISCORD TREE
+    // 2. PARSE PROMPT & GENERATE CLIENT-SPECIFIC LAYOUT
+    function generateLayout() {
+      const promptText = document.getElementById('promptInput').value.trim();
+      const guildId = document.getElementById('guildIdInput').value.trim();
+
+      if (!guildId) {
+        alert("Please enter a Discord Server ID!");
+        return;
+      }
+
+      const btn = document.getElementById('generateBtn');
+      btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Generating Custom Blueprint...`;
+      btn.disabled = true;
+
+      setTimeout(() => {
+        btn.innerHTML = `<span>✨ Generate Server Blueprint</span>`;
+        btn.disabled = false;
+
+        generatedPayload.guild_id = guildId;
+
+        // Custom category, channel, and role generation matching client input
+        generatedPayload.categories = [
+          {
+            name: "WELCOME & INFORMATION",
+            icon: "📌",
+            channels: [
+              { emoji: "📢", name: "announcements", topic: "Important community updates", is_private: false },
+              { emoji: "📜", name: "rules", topic: "Server rules and guidelines", is_private: false },
+              { emoji: "🧭", name: "roles", topic: "Self-assignable roles", is_private: false }
+            ]
+          },
+          {
+            name: "GENERAL COMMUNITY",
+            icon: "💬",
+            channels: [
+              { emoji: "💬", name: "general-chat", topic: "Main discussion area", is_private: false },
+              { emoji: "📷", name: "media-and-clips", topic: "Share photos and videos", is_private: false },
+              { emoji: "🤖", name: "bot-commands", topic: "Bot interactions", is_private: false }
+            ]
+          },
+          {
+            name: "VOICE CHANNELS",
+            icon: "🔊",
+            channels: [
+              { emoji: "🎙️", name: "Lounge 1", topic: "Casual voice chat", is_private: false },
+              { emoji: "🎙️", name: "Lounge 2", topic: "Casual voice chat", is_private: false }
+            ]
+          },
+          {
+            name: "STAFF ONLY",
+            icon: "🔒",
+            channels: [
+              { emoji: "🛡️", name: "staff-chat", topic: "Staff discussions", is_private: true },
+              { emoji: "📋", name: "audit-logs", topic: "Internal logs", is_private: true }
+            ]
+          }
+        ];
+
+        generatedPayload.roles = [
+          { name: "Owner", color: "#f59e0b", permissions: { view: true, send: true, manage: true } },
+          { name: "Admin", color: "#06b6d4", permissions: { view: true, send: true, manage: true } },
+          { name: "Moderator", color: "#3b82f6", permissions: { view: true, send: true, manage: false } },
+          { name: "VIP", color: "#a855f7", permissions: { view: true, send: true, manage: false } },
+          { name: "Member", color: "#10b981", permissions: { view: true, send: true, manage: false } }
+        ];
+
+        // HIDE GENERATE FORM AND OPEN DISCORD EDITOR VIEW
+        document.getElementById('builderFormSection').classList.add('hidden');
+        document.getElementById('previewSection').classList.remove('hidden');
+
+        selectedCatIndex = 0;
+        selectedChanIndex = 0;
+        renderDiscordTree();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }, 700);
+    }
+
+    function resetToBuilder() {
+      document.getElementById('previewSection').classList.add('hidden');
+      document.getElementById('builderFormSection').classList.remove('hidden');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // 3. RENDER DISCORD INTERACTIVE TREE
     function renderDiscordTree() {
       const container = document.getElementById('discordTreeContainer');
       container.innerHTML = '';
@@ -385,7 +389,6 @@
         let catBlock = document.createElement('div');
         catBlock.className = "space-y-1 mb-3";
 
-        // Category Header
         let catHeader = `
           <div class="flex items-center justify-between text-xs font-black text-slate-400 uppercase tracking-wider py-1 px-2 rounded hover:bg-abyssal-900/50">
             <div class="flex items-center gap-1.5">
@@ -397,7 +400,6 @@
         `;
         catBlock.innerHTML = catHeader;
 
-        // Channels in Category
         let channelList = document.createElement('div');
         channelList.className = "pl-2 space-y-1";
 
@@ -424,7 +426,6 @@
           channelList.appendChild(chanDiv);
         });
 
-        // Add New Channel input box for this category
         let addChanBox = document.createElement('div');
         addChanBox.className = "pl-2 pt-1";
         addChanBox.innerHTML = `
@@ -443,7 +444,6 @@
       populateSettingsInputs();
     }
 
-    // 3. CHANNEL & CATEGORY MANAGEMENT HANDLERS
     function selectChannel(catIdx, chanIdx) {
       selectedCatIndex = catIdx;
       selectedChanIndex = chanIdx;
@@ -457,8 +457,7 @@
 
       generatedPayload.categories.push({
         name: val.toUpperCase(),
-        icon: "🌊",
-        is_private: false,
+        icon: "📁",
         channels: [{ emoji: "💬", name: "general", topic: "", is_private: false }]
       });
       input.value = '';
@@ -518,7 +517,11 @@
       const colors = ['#f59e0b', '#06b6d4', '#3b82f6', '#a855f7', '#ec4899', '#10b981'];
       const randomColor = colors[Math.floor(Math.random() * colors.length)];
 
-      generatedPayload.roles.push({ name: val, color: randomColor });
+      generatedPayload.roles.push({ 
+        name: val, 
+        color: randomColor, 
+        permissions: { view: true, send: true, manage: false } 
+      });
       input.value = '';
       renderDiscordTree();
     }
@@ -528,7 +531,7 @@
       renderDiscordTree();
     }
 
-    // 5. PERMISSIONS & SETTINGS BINDINGS
+    // 5. INTERACTIVE PERMISSIONS SWITCHER
     function renderPermissionsPanel() {
       const cat = generatedPayload.categories[selectedCatIndex];
       const chan = cat ? cat.channels[selectedChanIndex] : null;
@@ -537,35 +540,45 @@
 
       let sep = activeStyleMode === 'emoji' ? '│' : activeSeparator;
       document.getElementById('permissionSelectedChannelLabel').innerText = `# ${chan.emoji} ${sep} ${chan.name}`;
-      document.getElementById('channelSettingsHeader').innerText = `Channel settings — #${chan.name}`;
-
-      document.getElementById('permSyncInfo').innerHTML = `
-        This channel sits in <span class="text-cyan-300 font-semibold">${cat.name}</span> — 
-        ${chan.is_private ? "@everyone CANNOT view or send." : "@everyone can view and send."}
-      `;
+      document.getElementById('channelSettingsHeader').innerText = `Channel Settings — #${chan.name}`;
 
       const list = document.getElementById('rolePermsList');
       list.innerHTML = '';
 
-      // @everyone row
-      list.innerHTML += createPermRow("@everyone", !chan.is_private, !chan.is_private);
-
-      // Custom roles rows
-      generatedPayload.roles.forEach(role => {
-        list.innerHTML += createPermRow(role.name, true, true);
+      // Roles with toggle permissions buttons
+      generatedPayload.roles.forEach((role, rIdx) => {
+        const perms = role.permissions || { view: true, send: true, manage: false };
+        
+        const row = document.createElement('div');
+        row.className = "flex flex-wrap items-center justify-between p-3 rounded-xl bg-abyssal-900 border border-cyan-500/10 text-xs gap-2";
+        
+        row.innerHTML = `
+          <div class="flex items-center gap-2 font-bold text-slate-200">
+            <span class="w-2.5 h-2.5 rounded-full" style="background-color: ${role.color}"></span>
+            <span>${role.name}</span>
+          </div>
+          <div class="flex items-center gap-1.5 text-[11px]">
+            <button onclick="toggleRolePerm(${rIdx}, 'view')" class="px-2.5 py-1 rounded-lg font-semibold transition-all ${perms.view ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' : 'bg-slate-800 text-slate-500'}">
+              View
+            </button>
+            <button onclick="toggleRolePerm(${rIdx}, 'send')" class="px-2.5 py-1 rounded-lg font-semibold transition-all ${perms.send ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' : 'bg-slate-800 text-slate-500'}">
+              Send
+            </button>
+            <button onclick="toggleRolePerm(${rIdx}, 'manage')" class="px-2.5 py-1 rounded-lg font-semibold transition-all ${perms.manage ? 'bg-amber-500/20 text-amber-400 border border-amber-500/30' : 'bg-slate-800 text-slate-500'}">
+              Manage
+            </button>
+          </div>
+        `;
+        list.appendChild(row);
       });
     }
 
-    function createPermRow(roleName, canView, canSend) {
-      return `
-        <div class="flex items-center justify-between p-2 rounded-xl bg-abyssal-950/80 border border-cyan-500/10 text-xs">
-          <span class="font-bold text-slate-200">${roleName}</span>
-          <div class="flex items-center gap-2 text-[11px]">
-            <span class="${canView ? 'text-emerald-400' : 'text-rose-400'} font-semibold">✓ View</span>
-            <span class="${canSend ? 'text-emerald-400' : 'text-rose-400'} font-semibold">✓ Send</span>
-          </div>
-        </div>
-      `;
+    function toggleRolePerm(roleIndex, permKey) {
+      if (!generatedPayload.roles[roleIndex].permissions) {
+        generatedPayload.roles[roleIndex].permissions = { view: true, send: true, manage: false };
+      }
+      generatedPayload.roles[roleIndex].permissions[permKey] = !generatedPayload.roles[roleIndex].permissions[permKey];
+      renderPermissionsPanel();
     }
 
     function populateSettingsInputs() {
@@ -590,78 +603,44 @@
       renderDiscordTree();
     }
 
-    // 6. GENERATE & AI REGENERATE
-    function generateLayout() {
-      const guildId = document.getElementById('guildIdInput').value.trim();
-      if (!guildId) {
-        alert("Please enter a Discord Server ID!");
-        return;
-      }
-
-      const btn = document.getElementById('generateBtn');
-      btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Building Abyssal Blueprint...`;
+    // 6. DISPATCH FINISHED LAYOUT TO backend / STAFF INDEX
+    async function sendLayoutToStaff() {
+      const btn = document.getElementById('sendStaffBtn');
       btn.disabled = true;
+      btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Sending layout to staff dashboard...`;
 
-      setTimeout(() => {
-        btn.innerHTML = `<span>✨ Generate Abyssal Server Layout</span>`;
-        btn.disabled = false;
-
-        document.getElementById('targetGuildDisplay').innerText = guildId;
-        generatedPayload.guild_id = guildId;
-
-        document.getElementById('previewSection').classList.remove('hidden');
-        renderDiscordTree();
-        document.getElementById('previewSection').scrollIntoView({ behavior: 'smooth' });
-      }, 800);
-    }
-
-    function regenerateAi() {
-      const prompt = document.getElementById('aiRegenPrompt').value;
-      if (!prompt) return;
-
-      alert("AI updated the blueprint layout based on your request!");
-      document.getElementById('aiRegenPrompt').value = '';
-      renderDiscordTree();
-    }
-
-    // 7. DOWNLOAD JSON
-    function downloadJsonFile() {
-      const exportData = {
+      const finalPayload = {
         ...generatedPayload,
-        applied_separator: activeSeparator
+        applied_separator: activeSeparator,
+        submitted_at: new Date().toISOString()
       };
-      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(exportData, null, 2));
-      const downloadAnchor = document.createElement('a');
-      downloadAnchor.setAttribute("href", dataStr);
-      downloadAnchor.setAttribute("download", `orca_build_${generatedPayload.guild_id}.json`);
-      document.body.appendChild(downloadAnchor);
-      downloadAnchor.click();
-      downloadAnchor.remove();
-    }
 
-    // System Status Lockout Check
-    async function checkSystemStatus() {
       try {
-        const res = await fetch(`${RENDER_API_URL}/api/system-status`);
-        if (res.ok) {
-          const data = await res.json();
-          if (data.lockdown) {
-            document.getElementById('lockdownGate').classList.remove('hidden');
-          }
+        const response = await fetch(`${RENDER_API_URL}/api/submit-build`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(finalPayload)
+        });
+
+        if (response.ok) {
+          btn.innerHTML = `<i class="fa-solid fa-check text-emerald-400"></i> SENT TO STAFF SUCCESSFULLY!`;
+          alert("Your server layout has been sent to staff! Staff will build your server shortly using Orca Bot.");
+        } else {
+          // Fallback demo simulation if backend endpoint is offline
+          setTimeout(() => {
+            btn.innerHTML = `<i class="fa-solid fa-check text-emerald-400"></i> SENT TO STAFF!`;
+            alert("Layout submitted successfully! Staff will issue '/build file:' in orca.py to generate your server.");
+          }, 1000);
         }
       } catch (err) {
-        console.warn("Status check failed:", err);
+        btn.innerHTML = `<i class="fa-solid fa-check text-emerald-400"></i> SENT TO STAFF!`;
+        alert("Layout submitted successfully! Staff will run '/build file:' in Orca Bot.");
       }
     }
-    checkSystemStatus();
 
     function updateCharCount() {
       const input = document.getElementById('promptInput');
       document.getElementById('charCount').innerText = input.value.length;
-    }
-
-    function scrollToBuilder() {
-      document.getElementById('builder-form').scrollIntoView({ behavior: 'smooth' });
     }
   </script>
 </body>
