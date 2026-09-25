@@ -16,8 +16,8 @@
         extend: {
           fontFamily: { sans: ['Inter', 'sans-serif'] },
           colors: {
-            deepSea: '#020617',
-            oceanCard: '#0f172a',
+            deepSea: '#010409',
+            oceanCard: '#0d1117',
             orcaCyan: '#06b6d4',
             orcaGlow: '#38bdf8'
           }
@@ -28,7 +28,7 @@
 
   <style>
     body { 
-      background-color: #020617; 
+      background-color: #010409; 
       color: #f8fafc; 
       font-family: 'Inter', sans-serif; 
       overflow-x: hidden;
@@ -47,9 +47,9 @@
     }
 
     .glass-card { 
-      background: rgba(15, 23, 42, 0.85); 
-      backdrop-filter: blur(24px); 
-      border: 1px solid rgba(255, 255, 255, 0.1); 
+      background: rgba(13, 17, 23, 0.85); 
+      backdrop-filter: blur(20px); 
+      border: 1px solid rgba(255, 255, 255, 0.08); 
     }
 
     .btn-orca { 
@@ -69,7 +69,7 @@
     }
     .tag-btn.active { 
       background: #06b6d4; 
-      color: #020617; 
+      color: #010409; 
       border-color: #38bdf8; 
       font-weight: 800; 
     }
@@ -83,7 +83,7 @@
 </head>
 <body class="min-h-screen flex flex-col justify-between relative selection:bg-cyan-500 selection:text-slate-950">
 
-  <!-- Deep Sea & Anglerfish Canvas -->
+  <!-- Deep Sea & Realistic Animals Canvas -->
   <canvas id="seaCanvas"></canvas>
 
   <!-- Header -->
@@ -103,7 +103,7 @@
   <main class="max-w-4xl mx-auto px-4 py-8 md:py-12 space-y-8 flex-1 w-full z-10 relative">
 
     <!-- ======================================================= -->
-    <!-- GATE / LANDING PAGE (MATCHING IMAGE SPECIFICATION) -->
+    <!-- GATE / LANDING PAGE -->
     <!-- ======================================================= -->
     <div id="landingGate" class="space-y-10 text-center py-6 md:py-10">
       
@@ -172,7 +172,7 @@
         <div class="space-y-2 bg-slate-950/40 p-3.5 rounded-2xl border border-white/5">
           <label class="block text-xs font-bold uppercase tracking-wider text-slate-300">Channel Style Separator</label>
           <div class="flex flex-wrap gap-2" id="styleTags">
-            <button type="button" onclick="setChannelStyle('emoji', this)" class="tag-btn active px-3 py-1.5 rounded-xl text-xs font-semibold">✓ Emoji</button>
+            <button type="button" onclick="setChannelStyle('emoji', this)" class="tag-btn active px-3 py-1.5 rounded-xl text-xs font-semibold">│ Emoji</button>
             <button type="button" onclick="setChannelStyle('丨', this)" class="tag-btn px-3 py-1.5 rounded-xl text-xs font-semibold">丨</button>
             <button type="button" onclick="setChannelStyle('•', this)" class="tag-btn px-3 py-1.5 rounded-xl text-xs font-semibold">•</button>
             <button type="button" onclick="setChannelStyle('-', this)" class="tag-btn px-3 py-1.5 rounded-xl text-xs font-semibold">‐</button>
@@ -202,9 +202,18 @@
 
         <div id="discordTreeContainer" class="bg-slate-950/80 p-3 md:p-4 space-y-3 max-h-[400px] overflow-y-auto"></div>
 
-        <div class="p-3 bg-slate-900/50 border-t border-white/10 flex gap-2">
-          <input type="text" id="newCategoryInput" placeholder="+ New Category" class="flex-1 bg-slate-950 border border-white/10 rounded-xl px-3 py-2 text-xs text-slate-200 focus:outline-none">
-          <button onclick="addNewCategory()" class="px-3 py-2 rounded-xl bg-cyan-500/20 text-cyan-300 text-xs font-bold border border-cyan-500/30">+ Category</button>
+        <!-- Add Category & Add Channel Controls -->
+        <div class="p-3 bg-slate-900/50 border-t border-white/10 space-y-2">
+          <!-- Add Category -->
+          <div class="flex gap-2">
+            <input type="text" id="newCategoryInput" placeholder="+ New Category Name" class="flex-1 bg-slate-950 border border-white/10 rounded-xl px-3 py-2 text-xs text-slate-200 focus:outline-none">
+            <button onclick="addNewCategory()" class="px-3 py-2 rounded-xl bg-cyan-500/20 text-cyan-300 text-xs font-bold border border-cyan-500/30 hover:bg-cyan-500/30">+ Category</button>
+          </div>
+          <!-- Add Channel (Under Category) -->
+          <div class="flex gap-2">
+            <input type="text" id="newChannelInput" placeholder="+ New Channel Name (Adds to selected category)" class="flex-1 bg-slate-950 border border-white/10 rounded-xl px-3 py-2 text-xs text-slate-200 focus:outline-none">
+            <button onclick="addNewChannel()" class="px-3 py-2 rounded-xl bg-blue-500/20 text-blue-300 text-xs font-bold border border-blue-500/30 hover:bg-blue-500/30">+ Channel</button>
+          </div>
         </div>
 
         <!-- Roles Section -->
@@ -246,7 +255,7 @@
   <!-- SCRIPT & ANGLERFISH CANVAS ANIMATION -->
   <script>
     /* -----------------------------------------------------------
-     * 1. DEEP SEA ANGLERFISH CANVAS ANIMATION
+     * 1. REALISTIC DEEP SEA ANIMALS CANVAS ANIMATION
      * ----------------------------------------------------------- */
     const canvas = document.getElementById('seaCanvas');
     const ctx = canvas.getContext('2d');
@@ -259,60 +268,117 @@
     window.addEventListener('resize', resizeCanvas);
     resizeCanvas();
 
-    // Floating water particles
-    const bubbles = Array.from({ length: 45 }, () => ({
+    // Bioluminescent Particles
+    const particles = Array.from({ length: 60 }, () => ({
       x: Math.random() * width,
       y: Math.random() * height,
-      radius: Math.random() * 2 + 1,
-      speed: Math.random() * 0.8 + 0.2,
-      alpha: Math.random() * 0.5 + 0.1
+      radius: Math.random() * 2 + 0.5,
+      speedY: -(Math.random() * 0.4 + 0.1),
+      alpha: Math.random() * 0.6 + 0.2
     }));
 
-    // Anglerfish state
+    // Realistic Anglerfish
     const angler = {
-      x: -120,
-      y: height * 0.65,
-      speedX: 0.9,
-      speedY: 0.2,
+      x: -180,
+      y: height * 0.6,
+      speedX: 0.85,
       angle: 0,
-      lureGlow: 0
+      lureGlow: 0,
+      finAngle: 0
     };
+
+    // Realistic Jellyfish Swimming
+    const jellyfish = Array.from({ length: 3 }, (_, i) => ({
+      x: width * (0.2 + i * 0.3),
+      y: height * (0.3 + Math.random() * 0.4),
+      radius: 18 + Math.random() * 10,
+      pulse: Math.random() * Math.PI,
+      speedY: -0.3
+    }));
 
     function drawDeepSea() {
       ctx.clearRect(0, 0, width, height);
 
-      // Bubbles
-      bubbles.forEach(b => {
-        b.y -= b.speed;
-        if (b.y < -10) { b.y = height + 10; b.x = Math.random() * width; }
+      // Deep water gradient light ray
+      const topLight = ctx.createRadialGradient(width * 0.5, 0, 10, width * 0.5, 0, height * 0.8);
+      topLight.addColorStop(0, 'rgba(6, 182, 212, 0.08)');
+      topLight.addColorStop(1, 'rgba(1, 4, 9, 0)');
+      ctx.fillStyle = topLight;
+      ctx.fillRect(0, 0, width, height);
+
+      // Particles
+      particles.forEach(p => {
+        p.y += p.speedY;
+        if (p.y < -10) { p.y = height + 10; p.x = Math.random() * width; }
         ctx.beginPath();
-        ctx.arc(b.x, b.y, b.radius, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(56, 189, 248, ${b.alpha})`;
+        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(56, 189, 248, ${p.alpha})`;
         ctx.fill();
       });
 
-      // Update Anglerfish position
-      angler.x += angler.speedX;
-      angler.y += Math.sin(angler.angle) * angler.speedY;
-      angler.angle += 0.02;
-      angler.lureGlow += 0.05;
+      // Draw Jellyfish
+      jellyfish.forEach(j => {
+        j.pulse += 0.03;
+        j.y += Math.sin(j.pulse) * 0.4 - 0.1;
+        if (j.y < -50) j.y = height + 50;
 
-      if (angler.x > width + 150) {
-        angler.x = -150;
-        angler.y = height * (0.4 + Math.random() * 0.4);
+        const pulseScale = 1 + Math.sin(j.pulse) * 0.15;
+
+        ctx.save();
+        ctx.translate(j.x, j.y);
+
+        // Bell Body
+        ctx.beginPath();
+        ctx.arc(0, 0, j.radius * pulseScale, Math.PI, 0, false);
+        ctx.quadraticCurveTo(0, j.radius * 0.5, -j.radius * pulseScale, 0);
+        ctx.fillStyle = 'rgba(14, 165, 233, 0.15)';
+        ctx.strokeStyle = 'rgba(56, 189, 248, 0.5)';
+        ctx.lineWidth = 1.5;
+        ctx.fill();
+        ctx.stroke();
+
+        // Tentacles
+        for (let t = -3; t <= 3; t += 2) {
+          ctx.beginPath();
+          ctx.moveTo(t * (j.radius / 4), 0);
+          ctx.quadraticCurveTo(
+            t * 8 + Math.sin(j.pulse * 2) * 5,
+            j.radius * 1.8,
+            t * 4,
+            j.radius * 2.5
+          );
+          ctx.strokeStyle = 'rgba(6, 182, 212, 0.35)';
+          ctx.lineWidth = 1;
+          ctx.stroke();
+        }
+
+        ctx.restore();
+      });
+
+      // Update Anglerfish
+      angler.x += angler.speedX;
+      angler.angle += 0.02;
+      angler.lureGlow += 0.06;
+      angler.finAngle += 0.08;
+
+      if (angler.x > width + 200) {
+        angler.x = -200;
+        angler.y = height * (0.35 + Math.random() * 0.4);
       }
 
-      ctx.save();
-      ctx.translate(angler.x, angler.y);
+      const currentY = angler.y + Math.sin(angler.angle) * 12;
 
-      // Lure Light Beam / Glow Effect
-      const glowRadius = 45 + Math.sin(angler.lureGlow) * 10;
-      const lureX = 45;
-      const lureY = -35;
+      ctx.save();
+      ctx.translate(angler.x, currentY);
+
+      // Bioluminescent Lure Ambient Beam
+      const lureX = 55;
+      const lureY = -45;
+      const glowRadius = 55 + Math.sin(angler.lureGlow) * 12;
 
       const lightGlow = ctx.createRadialGradient(lureX, lureY, 2, lureX, lureY, glowRadius);
-      lightGlow.addColorStop(0, 'rgba(6, 182, 212, 0.9)');
-      lightGlow.addColorStop(0.4, 'rgba(6, 182, 212, 0.3)');
+      lightGlow.addColorStop(0, 'rgba(103, 232, 249, 0.95)');
+      lightGlow.addColorStop(0.3, 'rgba(6, 182, 212, 0.4)');
       lightGlow.addColorStop(1, 'rgba(6, 182, 212, 0)');
 
       ctx.fillStyle = lightGlow;
@@ -320,40 +386,60 @@
       ctx.arc(lureX, lureY, glowRadius, 0, Math.PI * 2);
       ctx.fill();
 
-      // Angler Stalk
+      // Flexible Lure Stalk
       ctx.beginPath();
-      ctx.moveTo(-10, -10);
-      ctx.quadraticCurveTo(15, -45, lureX, lureY);
-      ctx.strokeStyle = '#0891b2';
+      ctx.moveTo(-15, -15);
+      ctx.bezierCurveTo(0, -60, 30, -65, lureX, lureY);
+      ctx.strokeStyle = '#0284c7';
       ctx.lineWidth = 2.5;
       ctx.stroke();
 
-      // Angler Light Bulb
+      // Glowing Lure Bulb
       ctx.beginPath();
-      ctx.arc(lureX, lureY, 4, 0, Math.PI * 2);
-      ctx.fillStyle = '#67e8f9';
+      ctx.arc(lureX, lureY, 5, 0, Math.PI * 2);
+      ctx.fillStyle = '#e0f2fe';
+      ctx.shadowColor = '#06b6d4';
+      ctx.shadowBlur = 15;
       ctx.fill();
+      ctx.shadowBlur = 0;
 
-      // Angler Body
+      // Realistic Body Outline
       ctx.beginPath();
-      ctx.ellipse(0, 0, 35, 22, 0, 0, Math.PI * 2);
-      ctx.fillStyle = '#0f172a';
-      ctx.strokeStyle = '#1e293b';
+      ctx.moveTo(40, 5);
+      ctx.quadraticCurveTo(20, -30, -25, -20); // Back
+      ctx.quadraticCurveTo(-50, 0, -45, 10);    // Tail base
+      ctx.quadraticCurveTo(-20, 35, 25, 25);   // Belly
+      ctx.quadraticCurveTo(45, 20, 40, 5);     // Jaw
+      ctx.fillStyle = '#090d16';
+      ctx.strokeStyle = 'rgba(56, 189, 248, 0.3)';
       ctx.lineWidth = 2;
       ctx.fill();
       ctx.stroke();
 
+      // Tail Fin
+      ctx.beginPath();
+      ctx.moveTo(-45, 10);
+      ctx.lineTo(-65, -5 + Math.sin(angler.finAngle) * 4);
+      ctx.lineTo(-60, 10);
+      ctx.lineTo(-65, 25 - Math.sin(angler.finAngle) * 4);
+      ctx.closePath();
+      ctx.fillStyle = '#0284c7';
+      ctx.globalAlpha = 0.6;
+      ctx.fill();
+      ctx.globalAlpha = 1.0;
+
       // Eye
       ctx.beginPath();
-      ctx.arc(15, -6, 3, 0, Math.PI * 2);
+      ctx.arc(20, -8, 4, 0, Math.PI * 2);
       ctx.fillStyle = '#38bdf8';
       ctx.fill();
 
-      // Teeth
+      // Sharp Teeth
       ctx.fillStyle = '#f8fafc';
       ctx.beginPath();
-      ctx.moveTo(25, 2); ctx.lineTo(29, 6); ctx.lineTo(23, 8);
-      ctx.moveTo(18, 4); ctx.lineTo(21, 9); ctx.lineTo(16, 9);
+      ctx.moveTo(38, 4); ctx.lineTo(44, 10); ctx.lineTo(34, 10);
+      ctx.moveTo(28, 6); ctx.lineTo(33, 14); ctx.lineTo(25, 12);
+      ctx.moveTo(18, 10); ctx.lineTo(21, 17); ctx.lineTo(15, 15);
       ctx.fill();
 
       ctx.restore();
@@ -364,11 +450,47 @@
     drawDeepSea();
 
     /* -----------------------------------------------------------
-     * 2. BUILDER LOGIC
+     * 2. BUILDER LOGIC (DYNAMIC GENERATION & EDITING)
      * ----------------------------------------------------------- */
     let activeSeparator = "│";
     let selectedCatIndex = 0;
     let selectedChanIndex = 0;
+
+    // Layout templates to ensure dynamic updates per click
+    const layoutTemplates = [
+      {
+        categories: [
+          { name: "WELCOME & INFO", icon: "📌", channels: [{ emoji: "📢", name: "announcements", topic: "", is_private: false }, { emoji: "📜", name: "rules", topic: "", is_private: false }] },
+          { name: "TEXT CHANNELS", icon: "💬", channels: [{ emoji: "💬", name: "general", topic: "", is_private: false }, { emoji: "📷", name: "media", topic: "", is_private: false }] },
+          { name: "VOICE ROOMS", icon: "🔊", channels: [{ emoji: "🔊", name: "Lounge 1", topic: "", is_private: false }, { emoji: "🎮", name: "Gaming VC", topic: "", is_private: false }] }
+        ],
+        roles: [
+          { name: "Owner", color: "#f59e0b", permissions: { view: true, send: true, manage: true } },
+          { name: "Admin", color: "#06b6d4", permissions: { view: true, send: true, manage: true } },
+          { name: "Member", color: "#10b981", permissions: { view: true, send: true, manage: false } }
+        ]
+      },
+      {
+        categories: [
+          { name: "ESPORTS LOBBY", icon: "🏆", channels: [{ emoji: "📢", name: "tournaments", topic: "", is_private: false }, { emoji: "⚔️", name: "match-making", topic: "", is_private: false }] },
+          { name: "TEAM VOICE", icon: "🎙️", channels: [{ emoji: "🎧", name: "Squad Alpha", topic: "", is_private: false }, { emoji: "🎧", name: "Squad Bravo", topic: "", is_private: false }] }
+        ],
+        roles: [
+          { name: "Captain", color: "#ef4444", permissions: { view: true, send: true, manage: true } },
+          { name: "Player", color: "#3b82f6", permissions: { view: true, send: true, manage: false } }
+        ]
+      },
+      {
+        categories: [
+          { name: "TICKET SUPPORT", icon: "🎟️", channels: [{ emoji: "🎫", name: "open-ticket", topic: "", is_private: false }, { emoji: "❓", name: "faq", topic: "", is_private: false }] },
+          { name: "DEV CORNER", icon: "💻", channels: [{ emoji: "🛠️", name: "updates", topic: "", is_private: false }, { emoji: "🐛", name: "bug-reports", topic: "", is_private: false }] }
+        ],
+        roles: [
+          { name: "Staff", color: "#8b5cf6", permissions: { view: true, send: true, manage: true } },
+          { name: "Developer", color: "#ec4899", permissions: { view: true, send: true, manage: true } }
+        ]
+      }
+    ];
 
     let generatedPayload = {
       guild_id: "",
@@ -395,6 +517,7 @@
       renderDiscordTree();
     }
 
+    // Picks a new layout dynamically
     function generateLayout() {
       const guildId = document.getElementById('guildIdInput').value.trim();
       if (!guildId) {
@@ -402,30 +525,14 @@
         return;
       }
 
+      const randomTemplate = layoutTemplates[Math.floor(Math.random() * layoutTemplates.length)];
+      
       generatedPayload.guild_id = guildId;
-      generatedPayload.categories = [
-        {
-          name: "INFORMATION",
-          icon: "📌",
-          channels: [
-            { emoji: "📢", name: "announcements", topic: "Server updates", is_private: false },
-            { emoji: "📜", name: "rules", topic: "Guidelines", is_private: false }
-          ]
-        },
-        {
-          name: "COMMUNITY",
-          icon: "💬",
-          channels: [
-            { emoji: "💬", name: "chat", topic: "General discussions", is_private: false },
-            { emoji: "🤖", name: "commands", topic: "Bot interactions", is_private: false }
-          ]
-        }
-      ];
+      generatedPayload.categories = JSON.parse(JSON.stringify(randomTemplate.categories));
+      generatedPayload.roles = JSON.parse(JSON.stringify(randomTemplate.roles));
 
-      generatedPayload.roles = [
-        { name: "Admin", color: "#06b6d4", permissions: { view: true, send: true, manage: true } },
-        { name: "Member", color: "#10b981", permissions: { view: true, send: true, manage: false } }
-      ];
+      selectedCatIndex = 0;
+      selectedChanIndex = 0;
 
       document.getElementById('builderFormSection').classList.add('hidden');
       document.getElementById('previewSection').classList.remove('hidden');
@@ -457,7 +564,7 @@
           chanDiv.onclick = () => { selectedCatIndex = catIdx; selectedChanIndex = chanIdx; renderDiscordTree(); };
 
           chanDiv.innerHTML = `
-            <span># ${chan.emoji} ${activeSeparator} ${chan.name}</span>
+            <span># ${chan.emoji || '💬'} ${activeSeparator} ${chan.name}</span>
             <button onclick="event.stopPropagation(); deleteChannel(${catIdx}, ${chanIdx})" class="text-slate-600 hover:text-red-400">✕</button>
           `;
           channelList.appendChild(chanDiv);
@@ -479,8 +586,32 @@
       renderDiscordTree();
     }
 
+    function addNewChannel() {
+      const val = document.getElementById('newChannelInput').value.trim();
+      if (!val) {
+        alert("Please enter a channel name!");
+        return;
+      }
+      if (generatedPayload.categories.length === 0) {
+        alert("Please create a category first!");
+        return;
+      }
+      
+      const targetCategory = generatedPayload.categories[selectedCatIndex] || generatedPayload.categories[0];
+      targetCategory.channels.push({
+        emoji: "💬",
+        name: val.toLowerCase().replace(/\s+/g, '-'),
+        topic: "",
+        is_private: false
+      });
+
+      document.getElementById('newChannelInput').value = '';
+      renderDiscordTree();
+    }
+
     function deleteCategory(catIdx) {
       generatedPayload.categories.splice(catIdx, 1);
+      selectedCatIndex = 0;
       renderDiscordTree();
     }
 
@@ -519,7 +650,11 @@
     function renderPermissionsPanel() {
       const cat = generatedPayload.categories[selectedCatIndex];
       const chan = cat ? cat.channels[selectedChanIndex] : null;
-      if (!chan) return;
+      if (!chan) {
+        document.getElementById('permissionSelectedChannelLabel').innerText = "No channel selected";
+        document.getElementById('rolePermsList').innerHTML = '';
+        return;
+      }
 
       document.getElementById('permissionSelectedChannelLabel').innerText = `# ${chan.name}`;
       const list = document.getElementById('rolePermsList');
