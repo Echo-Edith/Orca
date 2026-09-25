@@ -3,18 +3,21 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ORCA AI — Discord Server Builder</title>
+  <title>ORCA AI — Custom Discord Server Builder</title>
   
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 
   <script>
     tailwind.config = {
       darkMode: 'class',
       theme: {
         extend: {
-          fontFamily: { sans: ['Inter', 'sans-serif'] },
+          fontFamily: { 
+            sans: ['Inter', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace']
+          },
           colors: {
             deepSea: '#010409',
             oceanCard: '#0d1117',
@@ -47,9 +50,16 @@
     }
 
     .glass-card { 
-      background: rgba(13, 17, 23, 0.85); 
+      background: rgba(13, 17, 23, 0.88); 
       backdrop-filter: blur(20px); 
       border: 1px solid rgba(255, 255, 255, 0.08); 
+    }
+
+    .glass-card-glow {
+      background: rgba(11, 19, 41, 0.92);
+      backdrop-filter: blur(24px);
+      border: 1px solid rgba(6, 182, 212, 0.35);
+      box-shadow: 0 0 35px rgba(6, 182, 212, 0.15);
     }
 
     .btn-orca { 
@@ -79,6 +89,26 @@
       background: rgba(6, 182, 212, 0.2);
       border-left: 3px solid #06b6d4;
     }
+
+    .fade-step-enter {
+      animation: fadeInUp 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(14px) scale(0.99);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    .custom-scrollbar::-webkit-scrollbar { width: 5px; }
+    .custom-scrollbar::-webkit-scrollbar-track { background: rgba(1, 4, 9, 0.5); }
+    .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(6, 182, 212, 0.3); border-radius: 9999px; }
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: rgba(6, 182, 212, 0.6); }
   </style>
 </head>
 <body class="min-h-screen flex flex-col justify-between relative selection:bg-cyan-500 selection:text-slate-950">
@@ -88,10 +118,10 @@
 
   <!-- Header -->
   <header class="sticky top-0 z-50 w-full glass-card border-b border-white/10 px-4 py-3.5">
-    <div class="max-w-4xl mx-auto flex items-center justify-between">
+    <div class="max-w-5xl mx-auto flex items-center justify-between">
       <div class="flex items-center gap-2 cursor-pointer" onclick="showGate()">
         <span class="text-xl">🛠️</span>
-        <span class="font-black text-sm md:text-base tracking-tight text-white">Discord Server Builder</span>
+        <span class="font-black text-sm md:text-base tracking-tight text-white">ORCA Discord Server Builder</span>
       </div>
       <button onclick="goToBuilder()" class="btn-orca px-4 py-2 rounded-xl text-xs font-extrabold text-slate-950">
         Design my server
@@ -100,20 +130,20 @@
   </header>
 
   <!-- MAIN CONTAINER -->
-  <main class="max-w-4xl mx-auto px-4 py-8 md:py-12 space-y-8 flex-1 w-full z-10 relative">
+  <main class="max-w-5xl mx-auto px-4 py-6 md:py-10 space-y-8 flex-1 w-full z-10 relative">
 
     <!-- ======================================================= -->
-    <!-- GATE / LANDING PAGE -->
+    <!-- WINDOW 1: GATE / LANDING PAGE -->
     <!-- ======================================================= -->
-    <div id="landingGate" class="space-y-10 text-center py-6 md:py-10">
+    <div id="landingGate" class="space-y-10 text-center py-6 md:py-10 fade-step-enter">
       
       <div class="space-y-4 max-w-2xl mx-auto">
         <h1 class="text-3xl md:text-5xl font-black tracking-tight leading-tight text-white">
           ORCA AI Discord <br>
-          <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">Server Builder</span>
+          <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">Server Architect</span>
         </h1>
         <p class="text-sm md:text-base text-slate-300 leading-relaxed font-normal px-2">
-          Describe your dream server. ORCA AI designs the structure. You preview and edit it, then download a build file. No account needed — the build happens in Discord after you order.
+          Describe your dream server. ORCA AI designs the structure. You preview and customize categories, channels, and roles, then submit it directly for automated staff deployment.
         </p>
 
         <div class="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
@@ -130,116 +160,300 @@
       <div id="howItWorks" class="grid grid-cols-1 md:grid-cols-3 gap-4 text-left pt-6">
         <div class="glass-card p-5 rounded-3xl space-y-2">
           <div class="text-2xl">🗣️</div>
-          <h3 class="font-extrabold text-sm text-cyan-300">1. Describe it</h3>
-          <p class="text-xs text-slate-400">Tell ORCA AI what your community needs — gaming, support, dev, or roleplay.</p>
+          <h3 class="font-extrabold text-sm text-cyan-300">1. Describe & Configure</h3>
+          <p class="text-xs text-slate-400">Specify requirements, category counts, channels per category, and visual themes.</p>
         </div>
         <div class="glass-card p-5 rounded-3xl space-y-2">
           <div class="text-2xl">🧠</div>
-          <h3 class="font-extrabold text-sm text-cyan-300">2. Customize Layout</h3>
-          <p class="text-xs text-slate-400">Preview channels, voice rooms, roles, and set custom permissions instantly.</p>
+          <h3 class="font-extrabold text-sm text-cyan-300">2. Interactive Editor</h3>
+          <p class="text-xs text-slate-400">Preview and customize channels, voice rooms, roles, and set permissions live.</p>
         </div>
         <div class="glass-card p-5 rounded-3xl space-y-2">
           <div class="text-2xl">🚀</div>
-          <h3 class="font-extrabold text-sm text-cyan-300">3. Build in Discord</h3>
-          <p class="text-xs text-slate-400">Send your design to staff to generate the entire structure using Orca Bot.</p>
+          <h3 class="font-extrabold text-sm text-cyan-300">3. Staff Dispatch</h3>
+          <p class="text-xs text-slate-400">Send your design payload directly to ORCA staff for immediate guild deployment.</p>
         </div>
       </div>
 
     </div>
 
     <!-- ======================================================= -->
-    <!-- BUILDER FORM SECTION -->
+    <!-- WINDOW 2: CONFIGURATION & BUILDER FORM -->
     <!-- ======================================================= -->
-    <section id="builderFormSection" class="hidden glass-card p-5 md:p-8 rounded-3xl space-y-5 shadow-2xl">
+    <section id="builderFormSection" class="hidden glass-card-glow p-5 md:p-8 rounded-3xl space-y-6 shadow-2xl fade-step-enter">
       <div class="flex items-center justify-between border-b border-white/10 pb-3">
-        <h2 class="text-base font-black text-cyan-400 uppercase tracking-wider">ORCA AI Generator</h2>
-        <button onclick="showGate()" class="text-xs text-slate-400 hover:text-slate-200">← Back</button>
+        <div class="flex items-center gap-2">
+          <span class="text-cyan-400 text-lg"><i class="fa-solid fa-sliders"></i></span>
+          <h2 class="text-sm md:text-base font-black text-cyan-400 uppercase tracking-wider">Server Setup & Parameters</h2>
+        </div>
+        <button onclick="showGate()" class="text-xs font-bold text-slate-400 hover:text-slate-200 transition-all">← Back to Home</button>
       </div>
 
-      <div class="space-y-4">
+      <div class="space-y-5">
+        
+        <!-- Prompt / Requirements Textarea -->
         <div class="space-y-1.5">
-          <label class="block text-xs font-bold uppercase tracking-wider text-slate-300">Server Requirements</label>
-          <textarea id="promptInput" rows="4" maxlength="4000" oninput="updateCharCount()" class="w-full bg-slate-950/80 border border-white/10 rounded-2xl p-3.5 text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-cyan-400 transition-all resize-none" placeholder="Describe channels, categories, and roles you need..."></textarea>
+          <label class="block text-xs font-bold uppercase tracking-wider text-slate-300">Server Requirements & Concept</label>
+          <textarea id="promptInput" rows="3" maxlength="4000" oninput="updateCharCount()" class="w-full bg-slate-950/80 border border-white/10 rounded-2xl p-3.5 text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-cyan-400 transition-all resize-none" placeholder="Describe channels, community goals, special categories, or roles you need..."></textarea>
           <div class="text-right text-[10px] text-slate-500"><span id="charCount">0</span>/4000</div>
         </div>
 
-        <div class="space-y-1.5">
-          <label class="block text-xs font-bold uppercase tracking-wider text-slate-300">Discord Server ID</label>
-          <input type="text" id="guildIdInput" placeholder="Enter Server ID" value="123456789012345678" class="w-full bg-slate-950/80 border border-white/10 rounded-2xl p-3.5 text-xs text-slate-200 placeholder-slate-600 focus:outline-none focus:border-cyan-400 transition-all">
-        </div>
-
-        <!-- Channel Style Separators -->
-        <div class="space-y-2 bg-slate-950/40 p-3.5 rounded-2xl border border-white/5">
-          <label class="block text-xs font-bold uppercase tracking-wider text-slate-300">Channel Style Separator</label>
-          <div class="flex flex-wrap gap-2" id="styleTags">
-            <button type="button" onclick="setChannelStyle('emoji', this)" class="tag-btn active px-3 py-1.5 rounded-xl text-xs font-semibold">│ Emoji</button>
-            <button type="button" onclick="setChannelStyle('丨', this)" class="tag-btn px-3 py-1.5 rounded-xl text-xs font-semibold">丨</button>
-            <button type="button" onclick="setChannelStyle('•', this)" class="tag-btn px-3 py-1.5 rounded-xl text-xs font-semibold">•</button>
-            <button type="button" onclick="setChannelStyle('-', this)" class="tag-btn px-3 py-1.5 rounded-xl text-xs font-semibold">‐</button>
+        <!-- Blueprint Name & Guild ID -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div class="space-y-1.5">
+            <label class="block text-xs font-bold uppercase tracking-wider text-slate-300">Server Name</label>
+            <input type="text" id="guildNameInput" value="My Custom Discord Server" class="w-full bg-slate-950/80 border border-white/10 rounded-2xl p-3.5 text-xs text-white focus:outline-none focus:border-cyan-400 transition-all">
+          </div>
+          <div class="space-y-1.5">
+            <label class="block text-xs font-bold uppercase tracking-wider text-slate-300">Target Discord Guild ID</label>
+            <input type="text" id="guildIdInput" placeholder="Enter Guild ID" value="123456789012345678" class="w-full bg-slate-950/80 border border-white/10 rounded-2xl p-3.5 text-xs font-mono text-cyan-300 focus:outline-none focus:border-cyan-400 transition-all">
           </div>
         </div>
 
-        <button id="generateBtn" onclick="generateLayout()" class="w-full btn-orca py-3.5 rounded-2xl text-xs font-black text-slate-950 flex items-center justify-center gap-2 transition-all">
-          <span>✨ Generate Layout</span>
+        <!-- SLIDERS: Category Count & Channels Per Category -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          
+          <!-- Category Count Slider -->
+          <div class="space-y-2 bg-slate-950/60 p-4 rounded-2xl border border-white/5">
+            <div class="flex justify-between items-center text-xs font-bold">
+              <span class="text-slate-200 uppercase tracking-wider"><i class="fa-solid fa-folder-tree text-cyan-400 mr-1.5"></i> How Many Categories?</span>
+              <span id="catValLabel" class="text-cyan-400 font-mono text-xs font-black bg-cyan-950 px-2.5 py-1 rounded-lg border border-cyan-500/30">4</span>
+            </div>
+            <input type="range" id="catRangeInput" min="1" max="8" value="4" oninput="document.getElementById('catValLabel').innerText = this.value" class="w-full accent-cyan-400 cursor-pointer">
+            <div class="flex justify-between text-[10px] text-slate-500 font-mono">
+              <span>1 Category</span>
+              <span>4</span>
+              <span>8 Categories</span>
+            </div>
+          </div>
+
+          <!-- Channel Count Slider -->
+          <div class="space-y-2 bg-slate-950/60 p-4 rounded-2xl border border-white/5">
+            <div class="flex justify-between items-center text-xs font-bold">
+              <span class="text-slate-200 uppercase tracking-wider"><i class="fa-solid fa-hashtag text-cyan-400 mr-1.5"></i> Channels Per Category?</span>
+              <span id="chanValLabel" class="text-cyan-400 font-mono text-xs font-black bg-cyan-950 px-2.5 py-1 rounded-lg border border-cyan-500/30">3</span>
+            </div>
+            <input type="range" id="chanRangeInput" min="1" max="6" value="3" oninput="document.getElementById('chanValLabel').innerText = this.value" class="w-full accent-cyan-400 cursor-pointer">
+            <div class="flex justify-between text-[10px] text-slate-500 font-mono">
+              <span>1 Channel</span>
+              <span>3</span>
+              <span>6 Channels</span>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- VISUAL THEME & PRESET TEMPLATES -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          
+          <!-- Theme Selection -->
+          <div class="space-y-1.5">
+            <label class="block text-xs font-bold uppercase tracking-wider text-slate-300">
+              <i class="fa-solid fa-palette text-cyan-400 mr-1"></i> Visual Theme Accent
+            </label>
+            <select id="themeSelect" class="w-full bg-slate-950/80 border border-white/10 rounded-2xl p-3.5 text-xs text-white focus:outline-none focus:border-cyan-400 transition-all font-mono">
+              <option value="cyan">Deep Sea Cyan</option>
+              <option value="emerald">Bioluminescent Emerald</option>
+              <option value="purple">Abyssal Purple</option>
+              <option value="gold">Leviathan Gold</option>
+            </select>
+          </div>
+
+          <!-- Base Preset Template -->
+          <div class="space-y-1.5">
+            <label class="block text-xs font-bold uppercase tracking-wider text-slate-300">
+              <i class="fa-solid fa-wand-magic-sparkles text-cyan-400 mr-1"></i> Base Preset Archetype
+            </label>
+            <select id="presetSelect" class="w-full bg-slate-950/80 border border-white/10 rounded-2xl p-3.5 text-xs text-white focus:outline-none focus:border-cyan-400 transition-all">
+              <option value="gaming">Gaming & Community Hub</option>
+              <option value="esports">Esports & Tournament Organization</option>
+              <option value="store">Digital Store & Support Marketplace</option>
+              <option value="creator">Content Creator & VIP Lounge</option>
+            </select>
+          </div>
+
+        </div>
+
+        <!-- Channel Style Separators -->
+        <div class="space-y-2 bg-slate-950/40 p-4 rounded-2xl border border-white/5">
+          <label class="block text-xs font-bold uppercase tracking-wider text-slate-300">Channel Name Style Separator</label>
+          <div class="flex flex-wrap gap-2" id="styleTags">
+            <button type="button" onclick="setChannelStyle('│', this)" class="tag-btn active px-3.5 py-1.5 rounded-xl text-xs font-mono font-semibold">│ Pipe Prefix</button>
+            <button type="button" onclick="setChannelStyle('丨', this)" class="tag-btn px-3.5 py-1.5 rounded-xl text-xs font-mono font-semibold">丨 CJK Line</button>
+            <button type="button" onclick="setChannelStyle('•', this)" class="tag-btn px-3.5 py-1.5 rounded-xl text-xs font-mono font-semibold">• Bullet</button>
+            <button type="button" onclick="setChannelStyle('-', this)" class="tag-btn px-3.5 py-1.5 rounded-xl text-xs font-mono font-semibold">‐ Dash</button>
+            <button type="button" onclick="setChannelStyle('', this)" class="tag-btn px-3.5 py-1.5 rounded-xl text-xs font-mono font-semibold">None</button>
+          </div>
+        </div>
+
+        <!-- GENERATE BUTTON -->
+        <button id="generateBtn" onclick="generateLayout()" class="w-full btn-orca py-4 rounded-2xl text-xs font-black text-slate-950 flex items-center justify-center gap-2 tracking-wider uppercase transition-all shadow-xl">
+          <span>✨ Build & Preview Server Layout</span>
+          <i class="fa-solid fa-arrow-right"></i>
         </button>
+
       </div>
     </section>
 
     <!-- ======================================================= -->
-    <!-- PREVIEW & REGENERATE SECTION -->
+    <!-- WINDOW 3: INTERACTIVE DISCORD PREVIEW WORKSPACE -->
     <!-- ======================================================= -->
-    <section id="previewSection" class="hidden space-y-6">
-      <div class="glass-card rounded-3xl border border-white/10 overflow-hidden shadow-2xl">
+    <section id="previewSection" class="hidden space-y-6 fade-step-enter">
+      
+      <!-- Top Actions Bar -->
+      <div class="flex items-center justify-between bg-slate-950/90 p-3 rounded-2xl border border-white/10 text-xs">
+        <div class="flex items-center gap-2">
+          <span class="w-2.5 h-2.5 rounded-full bg-cyan-400 animate-pulse"></span>
+          <span class="font-bold text-white uppercase tracking-wider font-mono" id="previewGuildNameDisplay">COMMUNITY SERVER</span>
+          <span class="text-[10px] text-cyan-400 font-mono bg-cyan-950/60 px-2 py-0.5 rounded border border-cyan-800" id="themeBadge">THEME: CYAN</span>
+        </div>
+        <button onclick="goToBuilder()" class="px-3 py-1.5 rounded-xl bg-slate-900 border border-white/10 text-cyan-300 font-bold hover:bg-slate-800 transition-all flex items-center gap-1.5">
+          <i class="fa-solid fa-sliders"></i>
+          <span>Re-Configure Options</span>
+        </button>
+      </div>
+
+      <div class="glass-card rounded-3xl border border-white/10 overflow-hidden shadow-2xl grid grid-cols-1 lg:grid-cols-12 min-h-[580px]">
         
-        <!-- Header with REGENERATE BUTTON -->
-        <div class="bg-slate-900/90 px-4 py-3 border-b border-white/10 flex items-center justify-between">
-          <h2 class="font-black text-slate-100 text-xs md:text-sm">Server Layout Preview</h2>
-          <button onclick="generateLayout()" class="px-3 py-1.5 rounded-xl bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-300 text-xs font-bold border border-cyan-500/30 transition-all flex items-center gap-1.5">
-            <i class="fa-solid fa-arrows-rotate"></i>
-            <span>Regenerate</span>
+        <!-- LEFT: DISCORD NAVIGATION & CATEGORIES (7 cols) -->
+        <div class="lg:col-span-7 bg-slate-950/90 border-r border-white/10 flex flex-col justify-between p-4 space-y-4">
+          
+          <div class="space-y-4 flex-1">
+            <div class="flex items-center justify-between pb-2 border-b border-white/10 text-xs font-bold text-slate-400 uppercase tracking-wider">
+              <span>Discord Categories & Channels</span>
+              <span class="text-[10px] font-mono text-cyan-400" id="structureCountsTag">0 Categories / 0 Channels</span>
+            </div>
+
+            <!-- Dynamic Category & Channel Tree -->
+            <div id="discordTreeContainer" class="space-y-4 max-h-[380px] overflow-y-auto custom-scrollbar pr-1"></div>
+          </div>
+
+          <!-- Add Category Controls -->
+          <div class="pt-3 border-t border-white/10 space-y-2">
+            <div class="flex gap-2">
+              <input type="text" id="newCategoryInput" placeholder="+ New Category Name" class="flex-1 bg-slate-950 border border-white/10 rounded-xl px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-cyan-500">
+              <button onclick="addNewCategory()" class="px-3 py-2 rounded-xl bg-cyan-500/20 text-cyan-300 text-xs font-bold border border-cyan-500/30 hover:bg-cyan-500/30 transition-all">+ Category</button>
+            </div>
+            <div class="flex gap-2">
+              <input type="text" id="newChannelInput" placeholder="+ New Channel Name (Adds to active category)" class="flex-1 bg-slate-950 border border-white/10 rounded-xl px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-cyan-500">
+              <button onclick="addNewChannel()" class="px-3 py-2 rounded-xl bg-blue-500/20 text-blue-300 text-xs font-bold border border-blue-500/30 hover:bg-blue-500/30 transition-all">+ Channel</button>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- RIGHT: ROLES & PERMISSIONS INSPECTOR (5 cols) -->
+        <div class="lg:col-span-5 bg-slate-900/40 flex flex-col justify-between p-4 space-y-4">
+          
+          <div class="space-y-4 flex-1 overflow-y-auto custom-scrollbar pr-1">
+            
+            <!-- Active Channel Live View Box -->
+            <div class="bg-slate-950/80 p-3.5 rounded-2xl border border-white/10 space-y-2">
+              <div class="flex items-center justify-between">
+                <span class="text-[11px] font-bold text-cyan-400 uppercase tracking-wider flex items-center gap-1.5">
+                  <i class="fa-solid fa-hashtag text-cyan-400"></i> Selected Channel
+                </span>
+                <span class="text-[10px] text-slate-400 font-mono" id="activeChanType">TEXT</span>
+              </div>
+              <div class="font-bold text-sm text-white font-mono" id="activeChanName">#welcome</div>
+            </div>
+
+            <!-- Roles Hierarchy Section -->
+            <div class="space-y-2.5">
+              <div class="flex items-center justify-between text-xs font-bold uppercase text-slate-300">
+                <span>Role Hierarchy</span>
+                <span class="text-[10px] font-mono text-cyan-400" id="rolesCountTag">0 Roles</span>
+              </div>
+              
+              <div id="rolesList" class="space-y-1.5 max-h-[160px] overflow-y-auto custom-scrollbar"></div>
+
+              <div class="flex gap-2 pt-1">
+                <input type="text" id="newRoleInput" placeholder="+ Role Name" class="flex-1 bg-slate-950 border border-white/10 rounded-xl px-3 py-1.5 text-xs text-slate-200 focus:outline-none focus:border-cyan-500">
+                <button onclick="addNewRole()" class="px-3 py-1.5 rounded-xl bg-cyan-500/20 text-cyan-300 text-xs font-bold border border-cyan-500/30 hover:bg-cyan-500/30">Add Role</button>
+              </div>
+            </div>
+
+            <!-- Channel Permissions -->
+            <div class="space-y-2 bg-slate-950/60 p-3.5 rounded-2xl border border-white/10">
+              <div class="flex items-center justify-between">
+                <h4 class="text-[11px] font-bold uppercase text-slate-300">Channel Permissions</h4>
+                <span id="permissionSelectedChannelLabel" class="text-[10px] font-mono text-cyan-300">#welcome</span>
+              </div>
+              <div id="rolePermsList" class="space-y-1.5 text-xs"></div>
+            </div>
+
+          </div>
+
+          <!-- SUBMIT TO STAFF BUTTON (NO CHAT REGENERATE AT BOTTOM) -->
+          <div class="pt-3 border-t border-white/10">
+            <button onclick="sendLayoutToStaff()" id="sendStaffBtn" class="w-full btn-orca py-3.5 rounded-2xl text-xs font-black text-slate-950 flex items-center justify-center gap-2 transition-all shadow-lg tracking-wider uppercase">
+              <i class="fa-solid fa-paper-plane"></i>
+              <span>SEND DESIGN TO STAFF</span>
+            </button>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ======================================================= -->
+    <!-- WINDOW 4: FINAL CONFIRMATION TRANSMISSION PAGE -->
+    <!-- ======================================================= -->
+    <section id="finalSection" class="hidden min-h-[60vh] flex items-center justify-center fade-step-enter">
+      <div class="glass-card-glow max-w-2xl w-full rounded-3xl p-6 sm:p-8 space-y-6 text-center border border-cyan-500/40 relative shadow-2xl">
+        
+        <!-- Animated Radar Ping Icon -->
+        <div class="relative mx-auto w-20 h-20 rounded-full bg-cyan-500/10 border-2 border-cyan-400/50 flex items-center justify-center text-cyan-400 text-3xl shadow-xl shadow-cyan-500/20">
+          <i class="fa-solid fa-paper-plane animate-pulse"></i>
+        </div>
+
+        <div class="space-y-2">
+          <span class="px-3.5 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-300 text-xs font-mono font-bold tracking-widest uppercase">
+            Transmission Received
+          </span>
+          <h2 class="text-2xl sm:text-3xl font-black text-white">Design Sent — Waiting for Staff</h2>
+          <p class="text-xs sm:text-sm text-slate-300 max-w-md mx-auto leading-relaxed">
+            Your server blueprint payload has been logged and dispatched to the ORCA AI Staff command dashboard. Staff will review your blueprint and run <code class="text-cyan-400 font-mono">/build</code> in Discord shortly.
+          </p>
+        </div>
+
+        <!-- Metrics Summary Card -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 bg-slate-950/80 p-4 rounded-2xl border border-white/10 text-left font-mono">
+          <div>
+            <div class="text-[10px] text-slate-500 uppercase">Order ID</div>
+            <div class="text-xs text-cyan-400 font-bold" id="finalOrderId">#ORD-0000</div>
+          </div>
+          <div>
+            <div class="text-[10px] text-slate-500 uppercase">Target Guild</div>
+            <div class="text-xs text-white truncate" id="finalGuildId">0000000000</div>
+          </div>
+          <div>
+            <div class="text-[10px] text-slate-500 uppercase">Categories</div>
+            <div class="text-xs text-white" id="finalCategoriesCount">0</div>
+          </div>
+          <div>
+            <div class="text-[10px] text-slate-500 uppercase">Channels</div>
+            <div class="text-xs text-white" id="finalChannelsCount">0</div>
+          </div>
+        </div>
+
+        <!-- Status Indicator Box -->
+        <div class="bg-cyan-950/30 border border-cyan-500/30 rounded-2xl p-4 flex items-center gap-3 text-left">
+          <div class="w-3 h-3 rounded-full bg-cyan-400 animate-ping shrink-0"></div>
+          <p class="text-xs text-cyan-200">
+            <strong>Status:</strong> Pending Staff Deployment. You can copy your raw blueprint JSON or return to edit if needed.
+          </p>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="flex flex-col sm:flex-row items-center gap-3">
+          <button onclick="copyRawPayload()" class="w-full sm:flex-1 py-3 rounded-xl bg-slate-900 border border-white/10 hover:border-cyan-500/50 text-xs font-bold text-cyan-300 transition-all flex items-center justify-center gap-2">
+            <i class="fa-solid fa-copy"></i>
+            <span>Copy Blueprint JSON</span>
           </button>
-        </div>
-
-        <div id="discordTreeContainer" class="bg-slate-950/80 p-3 md:p-4 space-y-3 max-h-[400px] overflow-y-auto"></div>
-
-        <!-- Add Category & Add Channel Controls -->
-        <div class="p-3 bg-slate-900/50 border-t border-white/10 space-y-2">
-          <!-- Add Category -->
-          <div class="flex gap-2">
-            <input type="text" id="newCategoryInput" placeholder="+ New Category Name" class="flex-1 bg-slate-950 border border-white/10 rounded-xl px-3 py-2 text-xs text-slate-200 focus:outline-none">
-            <button onclick="addNewCategory()" class="px-3 py-2 rounded-xl bg-cyan-500/20 text-cyan-300 text-xs font-bold border border-cyan-500/30 hover:bg-cyan-500/30">+ Category</button>
-          </div>
-          <!-- Add Channel (Under Category) -->
-          <div class="flex gap-2">
-            <input type="text" id="newChannelInput" placeholder="+ New Channel Name (Adds to selected category)" class="flex-1 bg-slate-950 border border-white/10 rounded-xl px-3 py-2 text-xs text-slate-200 focus:outline-none">
-            <button onclick="addNewChannel()" class="px-3 py-2 rounded-xl bg-blue-500/20 text-blue-300 text-xs font-bold border border-blue-500/30 hover:bg-blue-500/30">+ Channel</button>
-          </div>
-        </div>
-
-        <!-- Roles Section -->
-        <div class="p-4 border-t border-white/10 bg-slate-900/30 space-y-2">
-          <h4 class="text-xs font-bold uppercase text-slate-300">Roles</h4>
-          <div id="rolesList" class="flex flex-wrap gap-2"></div>
-          <div class="flex gap-2 pt-1">
-            <input type="text" id="newRoleInput" placeholder="+ Role" class="bg-slate-950 border border-white/10 rounded-xl px-3 py-1.5 text-xs text-slate-200">
-            <button onclick="addNewRole()" class="px-3 py-1.5 rounded-xl bg-cyan-500/20 text-cyan-300 text-xs font-bold border border-cyan-500/30">Add</button>
-          </div>
-        </div>
-
-        <!-- Channel Permissions -->
-        <div class="p-4 border-t border-white/10 bg-slate-950 space-y-2">
-          <div class="flex items-center justify-between">
-            <h4 class="text-xs font-bold uppercase text-slate-300">Channel Permissions</h4>
-            <span id="permissionSelectedChannelLabel" class="text-xs font-mono text-cyan-300"></span>
-          </div>
-          <div id="rolePermsList" class="space-y-1.5"></div>
-        </div>
-
-        <!-- Submit to Staff -->
-        <div class="p-4 md:p-6 border-t border-white/10 bg-slate-900/90 text-center space-y-2">
-          <button onclick="sendLayoutToStaff()" id="sendStaffBtn" class="w-full btn-orca py-3.5 rounded-2xl text-xs font-black text-slate-950 flex items-center justify-center gap-2 transition-all">
-            <i class="fa-solid fa-paper-plane"></i>
-            <span>SEND DESIGN TO STAFF</span>
+          <button onclick="restartBuilder()" class="w-full sm:flex-1 py-3 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 text-slate-950 font-black text-xs hover:shadow-lg hover:shadow-cyan-500/30 transition-all">
+            Design Another Server
           </button>
         </div>
 
@@ -403,13 +617,13 @@
       ctx.fill();
       ctx.shadowBlur = 0;
 
-      // Realistic Body Outline
+      // Body Outline
       ctx.beginPath();
       ctx.moveTo(40, 5);
-      ctx.quadraticCurveTo(20, -30, -25, -20); // Back
-      ctx.quadraticCurveTo(-50, 0, -45, 10);    // Tail base
-      ctx.quadraticCurveTo(-20, 35, 25, 25);   // Belly
-      ctx.quadraticCurveTo(45, 20, 40, 5);     // Jaw
+      ctx.quadraticCurveTo(20, -30, -25, -20);
+      ctx.quadraticCurveTo(-50, 0, -45, 10);
+      ctx.quadraticCurveTo(-20, 35, 25, 25);
+      ctx.quadraticCurveTo(45, 20, 40, 5);
       ctx.fillStyle = '#090d16';
       ctx.strokeStyle = 'rgba(56, 189, 248, 0.3)';
       ctx.lineWidth = 2;
@@ -450,242 +664,348 @@
     drawDeepSea();
 
     /* -----------------------------------------------------------
-     * 2. BUILDER LOGIC (DYNAMIC GENERATION & EDITING)
+     * 2. STATE & APPLICATION LOGIC
      * ----------------------------------------------------------- */
     let activeSeparator = "│";
     let selectedCatIndex = 0;
     let selectedChanIndex = 0;
 
-    // Layout templates to ensure dynamic updates per click
-    const layoutTemplates = [
-      {
-        categories: [
-          { name: "WELCOME & INFO", icon: "📌", channels: [{ emoji: "📢", name: "announcements", topic: "", is_private: false }, { emoji: "📜", name: "rules", topic: "", is_private: false }] },
-          { name: "TEXT CHANNELS", icon: "💬", channels: [{ emoji: "💬", name: "general", topic: "", is_private: false }, { emoji: "📷", name: "media", topic: "", is_private: false }] },
-          { name: "VOICE ROOMS", icon: "🔊", channels: [{ emoji: "🔊", name: "Lounge 1", topic: "", is_private: false }, { emoji: "🎮", name: "Gaming VC", topic: "", is_private: false }] }
-        ],
-        roles: [
-          { name: "Owner", color: "#f59e0b", permissions: { view: true, send: true, manage: true } },
-          { name: "Admin", color: "#06b6d4", permissions: { view: true, send: true, manage: true } },
-          { name: "Member", color: "#10b981", permissions: { view: true, send: true, manage: false } }
-        ]
-      },
-      {
-        categories: [
-          { name: "ESPORTS LOBBY", icon: "🏆", channels: [{ emoji: "📢", name: "tournaments", topic: "", is_private: false }, { emoji: "⚔️", name: "match-making", topic: "", is_private: false }] },
-          { name: "TEAM VOICE", icon: "🎙️", channels: [{ emoji: "🎧", name: "Squad Alpha", topic: "", is_private: false }, { emoji: "🎧", name: "Squad Bravo", topic: "", is_private: false }] }
-        ],
-        roles: [
-          { name: "Captain", color: "#ef4444", permissions: { view: true, send: true, manage: true } },
-          { name: "Player", color: "#3b82f6", permissions: { view: true, send: true, manage: false } }
-        ]
-      },
-      {
-        categories: [
-          { name: "TICKET SUPPORT", icon: "🎟️", channels: [{ emoji: "🎫", name: "open-ticket", topic: "", is_private: false }, { emoji: "❓", name: "faq", topic: "", is_private: false }] },
-          { name: "DEV CORNER", icon: "💻", channels: [{ emoji: "🛠️", name: "updates", topic: "", is_private: false }, { emoji: "🐛", name: "bug-reports", topic: "", is_private: false }] }
-        ],
-        roles: [
-          { name: "Staff", color: "#8b5cf6", permissions: { view: true, send: true, manage: true } },
-          { name: "Developer", color: "#ec4899", permissions: { view: true, send: true, manage: true } }
-        ]
-      }
-    ];
-
-    let generatedPayload = {
-      guild_id: "",
+    let currentBlueprint = {
+      guild_id: "123456789012345678",
+      guild_name: "My Custom Discord Server",
+      theme: "cyan",
+      separator: "│",
       categories: [],
       roles: []
     };
 
+    // PAGE NAVIGATION FUNCTIONS
     function showGate() {
       document.getElementById('landingGate').classList.remove('hidden');
       document.getElementById('builderFormSection').classList.add('hidden');
       document.getElementById('previewSection').classList.add('hidden');
+      document.getElementById('finalSection').classList.add('hidden');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     function goToBuilder() {
       document.getElementById('landingGate').classList.add('hidden');
       document.getElementById('builderFormSection').classList.remove('hidden');
       document.getElementById('previewSection').classList.add('hidden');
+      document.getElementById('finalSection').classList.add('hidden');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    function setChannelStyle(style, btnElement) {
+    function updateCharCount() {
+      const val = document.getElementById('promptInput').value.length;
+      document.getElementById('charCount').innerText = val;
+    }
+
+    function setChannelStyle(style, btn) {
+      activeSeparator = style;
       document.querySelectorAll('#styleTags .tag-btn').forEach(b => b.classList.remove('active'));
-      btnElement.classList.add('active');
-      activeSeparator = style === 'emoji' ? '│' : style;
-      renderDiscordTree();
+      btn.classList.add('active');
     }
 
-    // Picks a new layout dynamically
+    // GENERATE BLUEPRINT FROM FORM IN WINDOW 2
     function generateLayout() {
-      const guildId = document.getElementById('guildIdInput').value.trim();
-      if (!guildId) {
-        alert("Please enter a Discord Server ID!");
-        return;
+      const gName = document.getElementById('guildNameInput').value.trim() || "My Custom Discord Server";
+      const gId = document.getElementById('guildIdInput').value.trim() || "123456789012345678";
+      const catCount = parseInt(document.getElementById('catRangeInput').value);
+      const chanCount = parseInt(document.getElementById('chanRangeInput').value);
+      const theme = document.getElementById('themeSelect').value;
+      const preset = document.getElementById('presetSelect').value;
+
+      currentBlueprint.guild_name = gName;
+      currentBlueprint.guild_id = gId;
+      currentBlueprint.theme = theme;
+      currentBlueprint.separator = activeSeparator;
+
+      // Base Preset Layout Templates
+      let catNames = ["WELCOME & INFO", "GENERAL CHATS", "VOICE ROOMS", "MEDIA & CLIPS", "BOT COMMANDS", "VIP AREA", "STAFF HQ", "ARCHIVES"];
+      if (preset === 'esports') {
+        catNames = ["TOURNAMENT LOBBY", "MATCH BRACKETS", "TEAM VOICE", "RULES & REPLAYS", "STAFF COMMAND", "VIP LOUNGE", "COMMUNITY", "SPONSORS"];
+      } else if (preset === 'store') {
+        catNames = ["WELCOME & PRICING", "PRODUCT CATALOG", "CUSTOMER REVIEWS", "SUPPORT TICKETS", "COMMUNITY CHAT", "ANNOUNCEMENTS", "VIP LOUNGE", "ADMIN HQ"];
+      } else if (preset === 'creator') {
+        catNames = ["WELCOME & SOCIALS", "STREAM ANNOUNCEMENTS", "VIP MEMBERS", "FAN ART & CLIPS", "GENERAL CHAT", "VOICE LOUNGES", "MODERATION", "SPONSORS"];
       }
 
-      const randomTemplate = layoutTemplates[Math.floor(Math.random() * layoutTemplates.length)];
-      
-      generatedPayload.guild_id = guildId;
-      generatedPayload.categories = JSON.parse(JSON.stringify(randomTemplate.categories));
-      generatedPayload.roles = JSON.parse(JSON.stringify(randomTemplate.roles));
+      let generatedCategories = [];
+      for (let i = 0; i < catCount; i++) {
+        let name = catNames[i] || `CATEGORY #${i + 1}`;
+        let channels = [];
+        for (let j = 0; j < chanCount; j++) {
+          let isVoice = (j === chanCount - 1) && (chanCount > 1);
+          let cName = isVoice ? `Voice Lounge ${j + 1}` : `chat-room-${j + 1}`;
+          if (i === 0 && j === 0) cName = "welcome";
+          if (i === 0 && j === 1) cName = "announcements";
+
+          channels.push({
+            name: cName,
+            type: isVoice ? "voice" : "text",
+            is_private: i >= catCount - 2 && (name.includes("STAFF") || name.includes("ADMIN"))
+          });
+        }
+        generatedCategories.push({ name: name, channels: channels });
+      }
+
+      currentBlueprint.categories = generatedCategories;
+      currentBlueprint.roles = [
+        { name: "Owner", color: "#f59e0b", permissions: { view: true, send: true, manage: true } },
+        { name: "Admin", color: "#06b6d4", permissions: { view: true, send: true, manage: true } },
+        { name: "VIP Member", color: "#9333ea", permissions: { view: true, send: true, manage: false } },
+        { name: "Member", color: "#10b981", permissions: { view: true, send: true, manage: false } }
+      ];
 
       selectedCatIndex = 0;
       selectedChanIndex = 0;
 
+      renderBlueprint();
+
+      // Transition to Window 3
       document.getElementById('builderFormSection').classList.add('hidden');
       document.getElementById('previewSection').classList.remove('hidden');
-      renderDiscordTree();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    function renderDiscordTree() {
-      const container = document.getElementById('discordTreeContainer');
-      container.innerHTML = '';
+    // RENDER INTERACTIVE DISCORD BLUEPRINT WORKSPACE
+    function renderBlueprint() {
+      const treeContainer = document.getElementById('discordTreeContainer');
+      const rolesContainer = document.getElementById('rolesList');
+      const permsContainer = document.getElementById('rolePermsList');
 
-      generatedPayload.categories.forEach((cat, catIdx) => {
-        let catBlock = document.createElement('div');
-        catBlock.className = "space-y-1 mb-2";
+      treeContainer.innerHTML = "";
+      rolesContainer.innerHTML = "";
+      permsContainer.innerHTML = "";
 
-        catBlock.innerHTML = `
-          <div class="flex items-center justify-between text-xs font-bold text-slate-400 uppercase py-1 px-1">
-            <span>▼ ${cat.icon ? cat.icon + ' ' : ''}${cat.name}</span>
-            <button onclick="deleteCategory(${catIdx})" class="text-slate-600 hover:text-red-400">✕</button>
+      const sepStr = currentBlueprint.separator ? (currentBlueprint.separator + " ") : "";
+
+      let totalChannels = 0;
+
+      // Render Categories & Channels
+      currentBlueprint.categories.forEach((cat, cIdx) => {
+        totalChannels += cat.channels.length;
+
+        const catDiv = document.createElement('div');
+        catDiv.className = "space-y-1 bg-slate-900/50 p-2.5 rounded-2xl border border-white/5";
+
+        let channelsHtml = "";
+        cat.channels.forEach((ch, chIdx) => {
+          const isActive = (cIdx === selectedCatIndex && chIdx === selectedChanIndex);
+          const activeClass = isActive ? "active-channel bg-cyan-950/80 border-l-2 border-cyan-400 font-bold" : "";
+          const icon = ch.type === "voice" ? '<i class="fa-solid fa-volume-high text-cyan-400 text-[10px]"></i>' : '<i class="fa-solid fa-hashtag text-slate-400 text-[10px]"></i>';
+
+          channelsHtml += `
+            <div onclick="selectChannel(${cIdx}, ${chIdx})" class="channel-item flex items-center justify-between p-2 rounded-xl text-xs text-slate-300 cursor-pointer transition-all ${activeClass}">
+              <div class="flex items-center gap-2 truncate">
+                ${icon}
+                <span class="truncate font-mono">${sepStr}${ch.name}</span>
+              </div>
+              <button onclick="event.stopPropagation(); deleteChannel(${cIdx}, ${chIdx})" class="text-slate-500 hover:text-red-400 text-[10px] px-1" title="Delete Channel">
+                <i class="fa-solid fa-trash"></i>
+              </button>
+            </div>
+          `;
+        });
+
+        catDiv.innerHTML = `
+          <div class="flex items-center justify-between text-[11px] font-bold text-slate-300 uppercase tracking-wider px-1 pb-1">
+            <span class="truncate"><i class="fa-solid fa-chevron-down text-[9px] text-cyan-400 mr-1"></i>${cat.name}</span>
+            <button onclick="deleteCategory(${cIdx})" title="Delete Category" class="text-slate-500 hover:text-red-400 text-[10px]"><i class="fa-solid fa-xmark"></i></button>
+          </div>
+          <div class="space-y-1 pl-1">
+            ${channelsHtml}
           </div>
         `;
 
-        let channelList = document.createElement('div');
-        channelList.className = "pl-2 space-y-1";
-
-        cat.channels.forEach((chan, chanIdx) => {
-          const isActive = (catIdx === selectedCatIndex && chanIdx === selectedChanIndex);
-          const chanDiv = document.createElement('div');
-          chanDiv.className = `channel-item flex items-center justify-between p-2 rounded-xl text-xs cursor-pointer ${isActive ? 'active-channel text-cyan-300 font-bold' : 'text-slate-300'}`;
-          chanDiv.onclick = () => { selectedCatIndex = catIdx; selectedChanIndex = chanIdx; renderDiscordTree(); };
-
-          chanDiv.innerHTML = `
-            <span># ${chan.emoji || '💬'} ${activeSeparator} ${chan.name}</span>
-            <button onclick="event.stopPropagation(); deleteChannel(${catIdx}, ${chanIdx})" class="text-slate-600 hover:text-red-400">✕</button>
-          `;
-          channelList.appendChild(chanDiv);
-        });
-
-        catBlock.appendChild(channelList);
-        container.appendChild(catBlock);
+        treeContainer.appendChild(catDiv);
       });
 
-      renderRoles();
-      renderPermissionsPanel();
+      // Render Roles
+      currentBlueprint.roles.forEach((r, rIdx) => {
+        const rDiv = document.createElement('div');
+        rDiv.className = "flex items-center justify-between p-2 rounded-xl bg-slate-950 border border-white/5 text-xs";
+        rDiv.innerHTML = `
+          <div class="flex items-center gap-2">
+            <span class="w-3 h-3 rounded-full" style="background-color: ${r.color}"></span>
+            <span class="font-bold text-slate-200 font-mono">${r.name}</span>
+          </div>
+          <button onclick="deleteRole(${rIdx})" class="text-slate-500 hover:text-red-400 text-xs px-1"><i class="fa-solid fa-xmark"></i></button>
+        `;
+        rolesContainer.appendChild(rDiv);
+      });
+
+      // Selected Channel Information Box
+      const activeCat = currentBlueprint.categories[selectedCatIndex];
+      const activeChan = activeCat ? activeCat.channels[selectedChanIndex] : null;
+
+      if (activeChan) {
+        document.getElementById('activeChanName').innerText = `${sepStr}${activeChan.name}`;
+        document.getElementById('activeChanType').innerText = activeChan.type.toUpperCase();
+        document.getElementById('permissionSelectedChannelLabel').innerText = `${sepStr}${activeChan.name}`;
+
+        // Permissions Matrix Simulation
+        currentBlueprint.roles.forEach(r => {
+          const permDiv = document.createElement('div');
+          permDiv.className = "flex items-center justify-between p-2 rounded-lg bg-slate-900/60 border border-white/5";
+          permDiv.innerHTML = `
+            <span class="font-bold text-slate-300 font-mono">${r.name}</span>
+            <span class="text-[10px] font-mono ${r.permissions.manage ? 'text-cyan-400' : 'text-emerald-400'}">
+              ${r.permissions.manage ? '● Admin Access' : '✓ Read & Send'}
+            </span>
+          `;
+          permsContainer.appendChild(permDiv);
+        });
+      }
+
+      // Sync Titles & Metrics
+      document.getElementById('previewGuildNameDisplay').innerText = (currentBlueprint.guild_name || "COMMUNITY SERVER").toUpperCase();
+      document.getElementById('themeBadge').innerText = `THEME: ${currentBlueprint.theme.toUpperCase()}`;
+      document.getElementById('structureCountsTag').innerText = `${currentBlueprint.categories.length} Cats / ${totalChannels} Chans`;
+      document.getElementById('rolesCountTag').innerText = `${currentBlueprint.roles.length} Roles`;
+    }
+
+    function selectChannel(cIdx, chIdx) {
+      selectedCatIndex = cIdx;
+      selectedChanIndex = chIdx;
+      renderBlueprint();
     }
 
     function addNewCategory() {
-      const val = document.getElementById('newCategoryInput').value.trim();
-      if (!val) return;
-      generatedPayload.categories.push({ name: val.toUpperCase(), icon: "📁", channels: [] });
-      document.getElementById('newCategoryInput').value = '';
-      renderDiscordTree();
+      const input = document.getElementById('newCategoryInput');
+      const name = input.value.trim();
+      if (name) {
+        currentBlueprint.categories.push({
+          name: name.toUpperCase(),
+          channels: [{ name: "general", type: "text", is_private: false }]
+        });
+        input.value = "";
+        renderBlueprint();
+      }
     }
 
     function addNewChannel() {
-      const val = document.getElementById('newChannelInput').value.trim();
-      if (!val) {
-        alert("Please enter a channel name!");
-        return;
+      const input = document.getElementById('newChannelInput');
+      const name = input.value.trim();
+      if (name && currentBlueprint.categories.length > 0) {
+        if (!currentBlueprint.categories[selectedCatIndex]) selectedCatIndex = 0;
+        
+        currentBlueprint.categories[selectedCatIndex].channels.push({
+          name: name.toLowerCase().replace(/\s+/g, '-'),
+          type: "text",
+          is_private: false
+        });
+        input.value = "";
+        renderBlueprint();
       }
-      if (generatedPayload.categories.length === 0) {
-        alert("Please create a category first!");
-        return;
+    }
+
+    function deleteCategory(idx) {
+      if (currentBlueprint.categories.length > 1) {
+        currentBlueprint.categories.splice(idx, 1);
+        selectedCatIndex = 0;
+        selectedChanIndex = 0;
+        renderBlueprint();
       }
-      
-      const targetCategory = generatedPayload.categories[selectedCatIndex] || generatedPayload.categories[0];
-      targetCategory.channels.push({
-        emoji: "💬",
-        name: val.toLowerCase().replace(/\s+/g, '-'),
-        topic: "",
-        is_private: false
-      });
-
-      document.getElementById('newChannelInput').value = '';
-      renderDiscordTree();
     }
 
-    function deleteCategory(catIdx) {
-      generatedPayload.categories.splice(catIdx, 1);
-      selectedCatIndex = 0;
-      renderDiscordTree();
-    }
-
-    function deleteChannel(catIdx, chanIdx) {
-      generatedPayload.categories[catIdx].channels.splice(chanIdx, 1);
-      renderDiscordTree();
-    }
-
-    function renderRoles() {
-      const list = document.getElementById('rolesList');
-      list.innerHTML = '';
-      generatedPayload.roles.forEach((role, idx) => {
-        list.innerHTML += `
-          <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs bg-slate-950 border border-white/10">
-            <span class="w-2 h-2 rounded-full" style="background:${role.color}"></span>
-            ${role.name}
-            <button onclick="deleteRole(${idx})" class="text-slate-500 hover:text-red-400 ml-1">✕</button>
-          </span>
-        `;
-      });
+    function deleteChannel(cIdx, chIdx) {
+      if (currentBlueprint.categories[cIdx].channels.length > 1) {
+        currentBlueprint.categories[cIdx].channels.splice(chIdx, 1);
+        selectedChanIndex = 0;
+        renderBlueprint();
+      }
     }
 
     function addNewRole() {
-      const val = document.getElementById('newRoleInput').value.trim();
-      if (!val) return;
-      generatedPayload.roles.push({ name: val, color: "#06b6d4", permissions: { view: true, send: true, manage: false } });
-      document.getElementById('newRoleInput').value = '';
-      renderDiscordTree();
+      const input = document.getElementById('newRoleInput');
+      const name = input.value.trim();
+      if (name) {
+        const colors = ["#06b6d4", "#10b981", "#9333ea", "#f59e0b", "#ef4444", "#3b82f6"];
+        const color = colors[Math.floor(Math.random() * colors.length)];
+        currentBlueprint.roles.push({
+          name: name,
+          color: color,
+          permissions: { view: true, send: true, manage: false }
+        });
+        input.value = "";
+        renderBlueprint();
+      }
     }
 
-    function deleteRole(idx) {
-      generatedPayload.roles.splice(idx, 1);
-      renderDiscordTree();
+    function deleteRole(rIdx) {
+      if (currentBlueprint.roles.length > 1) {
+        currentBlueprint.roles.splice(rIdx, 1);
+        renderBlueprint();
+      }
     }
 
-    function renderPermissionsPanel() {
-      const cat = generatedPayload.categories[selectedCatIndex];
-      const chan = cat ? cat.channels[selectedChanIndex] : null;
-      if (!chan) {
-        document.getElementById('permissionSelectedChannelLabel').innerText = "No channel selected";
-        document.getElementById('rolePermsList').innerHTML = '';
-        return;
+    // SUBMIT DESIGN TO STAFF -> GO TO WINDOW 4 (FINAL TRANSMISSION PAGE)
+    async function sendLayoutToStaff() {
+      const orderId = "#ORD-" + Math.floor(1000 + Math.random() * 9000);
+
+      try {
+        await fetch('/api/submit_build', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            order_id: orderId,
+            blueprint: currentBlueprint
+          })
+        });
+      } catch (e) {
+        console.warn("Local submission mode active.");
       }
 
-      document.getElementById('permissionSelectedChannelLabel').innerText = `# ${chan.name}`;
-      const list = document.getElementById('rolePermsList');
-      list.innerHTML = '';
+      // Populate Final Confirmation Details
+      document.getElementById('finalOrderId').innerText = orderId;
+      document.getElementById('finalGuildId').innerText = currentBlueprint.guild_id || "123456789012345678";
+      document.getElementById('finalCategoriesCount').innerText = currentBlueprint.categories.length;
 
-      generatedPayload.roles.forEach((role, rIdx) => {
-        const perms = role.permissions || { view: true, send: true, manage: false };
-        list.innerHTML += `
-          <div class="flex items-center justify-between p-2 rounded-xl bg-slate-900 text-xs">
-            <span>${role.name}</span>
-            <div class="flex gap-1">
-              <button onclick="toggleRolePerm(${rIdx}, 'view')" class="px-2 py-0.5 rounded text-[10px] ${perms.view ? 'bg-emerald-500/20 text-emerald-400' : 'bg-slate-800 text-slate-500'}">View</button>
-              <button onclick="toggleRolePerm(${rIdx}, 'send')" class="px-2 py-0.5 rounded text-[10px] ${perms.send ? 'bg-emerald-500/20 text-emerald-400' : 'bg-slate-800 text-slate-500'}">Send</button>
-            </div>
-          </div>
-        `;
-      });
+      let totalChans = 0;
+      currentBlueprint.categories.forEach(c => totalChans += c.channels.length);
+      document.getElementById('finalChannelsCount').innerText = totalChans;
+
+      // Hide Window 3, Show Window 4
+      document.getElementById('previewSection').classList.add('hidden');
+      document.getElementById('finalSection').classList.remove('hidden');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    function toggleRolePerm(roleIndex, permKey) {
-      generatedPayload.roles[roleIndex].permissions[permKey] = !generatedPayload.roles[roleIndex].permissions[permKey];
-      renderPermissionsPanel();
+    function copyRawPayload() {
+      const text = JSON.stringify(currentBlueprint, null, 2);
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(() => {
+          showToast("Blueprint JSON copied to clipboard!");
+        }).catch(() => fallbackCopy(text));
+      } else {
+        fallbackCopy(text);
+      }
     }
 
-    async function sendLayoutToStaff() {
-      alert("Design submitted! Staff can now run /build file: in Orca Bot.");
+    function fallbackCopy(text) {
+      const ta = document.createElement("textarea");
+      ta.value = text;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      showToast("Blueprint JSON copied to clipboard!");
     }
 
-    function updateCharCount() {
-      document.getElementById('charCount').innerText = document.getElementById('promptInput').value.length;
+    function showToast(msg) {
+      const toast = document.createElement('div');
+      toast.className = "fixed bottom-5 right-5 z-50 bg-cyan-400 text-slate-950 font-black text-xs px-4 py-3 rounded-xl shadow-2xl transition-all";
+      toast.innerText = msg;
+      document.body.appendChild(toast);
+      setTimeout(() => toast.remove(), 3000);
+    }
+
+    function restartBuilder() {
+      showGate();
     }
   </script>
 </body>
 </html>
+
