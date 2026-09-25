@@ -3,9 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Discord Server Builder | ORCA Studio</title>
+  <title>Discord Server Builder</title>
   
-  <!-- Tailwind CSS & FontAwesome -->
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -15,18 +14,7 @@
       darkMode: 'class',
       theme: {
         extend: {
-          fontFamily: { sans: ['Inter', 'sans-serif'] },
-          colors: {
-            abyssal: {
-              950: '#020612',
-              900: '#050e21',
-              800: '#0a1936',
-              700: '#102752',
-              cyan: '#06b6d4',
-              teal: '#14b8a6',
-              glow: '#38bdf8'
-            }
-          }
+          fontFamily: { sans: ['Inter', 'sans-serif'] }
         }
       }
     }
@@ -34,221 +22,190 @@
 
   <style>
     body { 
-      background: radial-gradient(circle at top, #0a1936 0%, #020612 100%); 
+      background-color: #030712; 
       color: #f8fafc; 
       font-family: 'Inter', sans-serif; 
+      overflow-x: hidden;
     }
+
+    /* Ambient Animated Background */
+    .bg-animation {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: -1;
+      overflow: hidden;
+    }
+    .orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(90px);
+      opacity: 0.35;
+      animation: float 18s ease-in-out infinite alternate;
+    }
+    .orb-1 {
+      top: -10%;
+      left: -10%;
+      width: 50vw;
+      height: 50vw;
+      background: #06b6d4;
+    }
+    .orb-2 {
+      bottom: -20%;
+      right: -10%;
+      width: 60vw;
+      height: 60vw;
+      background: #3b82f6;
+      animation-delay: -9s;
+    }
+    .orb-3 {
+      top: 40%;
+      left: 30%;
+      width: 40vw;
+      height: 40vw;
+      background: #6366f1;
+      animation-delay: -5s;
+    }
+    @keyframes float {
+      0% { transform: translate(0, 0) scale(1); }
+      100% { transform: translate(8%, 10%) scale(1.1); }
+    }
+
     .glass-card { 
-      background: rgba(5, 14, 33, 0.85); 
-      backdrop-filter: blur(16px); 
-      border: 1px solid rgba(6, 182, 212, 0.2); 
+      background: rgba(15, 23, 42, 0.75); 
+      backdrop-filter: blur(20px); 
+      border: 1px solid rgba(255, 255, 255, 0.1); 
     }
     .btn-glow { 
       background: linear-gradient(135deg, #06b6d4 0%, #0284c7 100%); 
-      box-shadow: 0 0 25px rgba(6, 182, 212, 0.4); 
+      box-shadow: 0 0 20px rgba(6, 182, 212, 0.3); 
     }
     .btn-glow:hover { 
-      box-shadow: 0 0 35px rgba(56, 189, 248, 0.6); 
+      box-shadow: 0 0 30px rgba(56, 189, 248, 0.5); 
       transform: translateY(-1px); 
     }
     .tag-btn { 
-      background: rgba(10, 25, 54, 0.7); 
-      border: 1px solid rgba(6, 182, 212, 0.25); 
+      background: rgba(30, 41, 59, 0.7); 
+      border: 1px solid rgba(255, 255, 255, 0.1); 
       transition: all 0.2s ease; 
     }
     .tag-btn.active { 
-      background: linear-gradient(135deg, #06b6d4 0%, #0d9488 100%); 
-      color: #020612; 
+      background: #06b6d4; 
+      color: #030712; 
       border-color: #38bdf8; 
       font-weight: 800; 
-      box-shadow: 0 0 15px rgba(6, 182, 212, 0.5);
     }
-    .channel-item:hover {
-      background: rgba(6, 182, 212, 0.1);
-    }
+    .channel-item:hover { background: rgba(255, 255, 255, 0.05); }
     .channel-item.active-channel {
       background: rgba(6, 182, 212, 0.2);
       border-left: 3px solid #06b6d4;
     }
   </style>
 </head>
-<body class="min-h-screen flex flex-col justify-between overflow-x-hidden">
+<body class="min-h-screen flex flex-col justify-between">
 
-  <!-- 🔒 MAINTENANCE OVERLAY GATE -->
-  <div id="lockdownGate" class="hidden fixed inset-0 z-50 bg-abyssal-950/95 backdrop-blur-xl flex flex-col items-center justify-center p-6 text-center">
-    <div class="max-w-md p-8 glass-card rounded-3xl border-cyan-500/30 shadow-2xl space-y-4">
-      <div class="w-16 h-16 mx-auto rounded-2xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-400 text-3xl mb-2">
-        <i class="fa-solid fa-shield-halved"></i>
-      </div>
-      <h2 class="text-2xl font-black text-cyan-400 tracking-tight">System Maintenance Active</h2>
-      <p class="text-sm text-slate-300">The AI Builder is temporarily offline for maintenance. Please check back shortly!</p>
-    </div>
+  <!-- Animated Background Orbs -->
+  <div class="bg-animation">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
   </div>
 
-  <!-- 🌊 HEADER -->
-  <header class="sticky top-0 z-40 w-full glass-card border-b border-cyan-500/20 px-4 py-3.5">
-    <div class="max-w-3xl mx-auto flex items-center justify-between">
-      <div class="flex items-center gap-2.5">
-        <span class="text-2xl">⚡</span>
-        <span class="font-black text-base tracking-tight text-slate-100">Discord Server Builder</span>
+  <!-- Header -->
+  <header class="sticky top-0 z-40 w-full glass-card border-b border-white/10 px-4 py-3.5">
+    <div class="max-w-4xl mx-auto flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <span class="text-xl">⚡</span>
+        <span class="font-black text-sm md:text-base tracking-tight text-white">Discord Server Builder</span>
       </div>
-      <button onclick="resetToBuilder()" class="btn-glow px-4 py-2 rounded-xl text-xs font-extrabold text-slate-950 tracking-wide transition-all">
-        Design new server
+      <button onclick="resetToBuilder()" class="btn-glow px-3.5 py-1.5 md:px-4 md:py-2 rounded-xl text-xs font-extrabold text-slate-950 transition-all">
+        New Design
       </button>
     </div>
   </header>
 
-  <!-- 🐙 MAIN CONTENT -->
-  <main class="max-w-3xl mx-auto px-4 py-8 space-y-10 flex-1 w-full">
+  <!-- Main Container -->
+  <main class="max-w-4xl mx-auto px-4 py-6 md:py-10 space-y-8 flex-1 w-full">
 
-    <!-- HERO HEADER -->
-    <section class="text-center space-y-3 py-2">
-      <h1 class="text-3xl md:text-5xl font-black tracking-tight leading-tight">
+    <section class="text-center space-y-2">
+      <h1 class="text-2xl md:text-4xl font-black tracking-tight leading-tight">
         Custom Discord <br>
-        <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-teal-300 to-blue-500">Server Builder</span>
+        <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">Server Layout Generator</span>
       </h1>
-      <p class="text-sm md:text-base text-slate-300 max-w-xl mx-auto leading-relaxed">
-        Describe your ideal server layout or theme below to generate a customizable structure.
+      <p class="text-xs md:text-sm text-slate-400 max-w-lg mx-auto">
+        Customize your server channels and roles, then submit your design directly to staff for automated deployment.
       </p>
     </section>
 
-    <!-- 📝 INPUT FORM SECTION (STEP 1) -->
-    <section id="builderFormSection" class="glass-card p-6 md:p-8 rounded-3xl space-y-6 shadow-2xl">
-      <div class="text-center space-y-1">
-        <h2 class="text-2xl font-black text-slate-100 flex items-center justify-center gap-2">
-          <span>📝</span> Server Requirements
-        </h2>
-        <p class="text-xs text-slate-400">Describe the channels, roles, and theme you want for your Discord server.</p>
-      </div>
-
-      <div class="space-y-6">
-        <div class="space-y-2">
-          <label class="block text-[11px] font-black uppercase tracking-wider text-cyan-400">What should your server look like?</label>
-          <textarea id="promptInput" rows="4" maxlength="4000" oninput="updateCharCount()" class="w-full bg-abyssal-950/90 border border-cyan-500/30 rounded-2xl p-4 text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-cyan-400 transition-all resize-none shadow-inner" placeholder="Example: I want a gaming community server named 'Nexus Gaming' with announcements, general chat, clip sharing, competitive LFG channels, and roles for Admin, Moderator, Streamer, VIP, and Member..."></textarea>
+    <!-- STEP 1: FORM -->
+    <section id="builderFormSection" class="glass-card p-5 md:p-8 rounded-3xl space-y-5 shadow-2xl">
+      <div class="space-y-4">
+        <div class="space-y-1.5">
+          <label class="block text-xs font-bold uppercase tracking-wider text-cyan-400">Server Description & Requirements</label>
+          <textarea id="promptInput" rows="4" maxlength="4000" oninput="updateCharCount()" class="w-full bg-slate-950/80 border border-white/10 rounded-2xl p-3.5 text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-cyan-400 transition-all resize-none" placeholder="Describe channels, categories, and roles you need..."></textarea>
           <div class="text-right text-[10px] text-slate-500"><span id="charCount">0</span>/4000</div>
         </div>
 
-        <div class="space-y-2">
-          <label class="block text-[11px] font-black uppercase tracking-wider text-cyan-400">Discord Server ID</label>
-          <input type="text" id="guildIdInput" placeholder="123456789012345678" value="123456789012345678" class="w-full bg-abyssal-950/90 border border-cyan-500/30 rounded-2xl p-4 text-xs text-slate-200 placeholder-slate-600 focus:outline-none focus:border-cyan-400 transition-all shadow-inner">
-          <p class="text-[10px] text-slate-400">Make sure the Orca Bot is invited to this server with <b>Administrator</b> permissions.</p>
+        <div class="space-y-1.5">
+          <label class="block text-xs font-bold uppercase tracking-wider text-cyan-400">Discord Server ID</label>
+          <input type="text" id="guildIdInput" placeholder="Enter Server ID" value="123456789012345678" class="w-full bg-slate-950/80 border border-white/10 rounded-2xl p-3.5 text-xs text-slate-200 placeholder-slate-600 focus:outline-none focus:border-cyan-400 transition-all">
         </div>
 
-        <!-- Channel Style Switcher -->
-        <div class="space-y-3 bg-abyssal-950/60 p-4 rounded-2xl border border-cyan-500/20">
-          <label class="block text-[11px] font-black uppercase tracking-wider text-cyan-400">Channel Style Separator</label>
+        <div class="space-y-2 bg-slate-950/40 p-3.5 rounded-2xl border border-white/5">
+          <label class="block text-xs font-bold uppercase tracking-wider text-cyan-400">Channel Style Separator</label>
           <div class="flex flex-wrap gap-2" id="styleTags">
-            <button type="button" onclick="setChannelStyle('emoji', this)" class="tag-btn active px-3.5 py-2 rounded-xl text-xs font-semibold">
-              ✓ Emoji Separator
-            </button>
-            <button type="button" onclick="setChannelStyle('丨', this)" class="tag-btn px-4 py-2 rounded-xl text-xs font-semibold text-slate-300">丨</button>
-            <button type="button" onclick="setChannelStyle('•', this)" class="tag-btn px-4 py-2 rounded-xl text-xs font-semibold text-slate-300">•</button>
-            <button type="button" onclick="setChannelStyle('︱', this)" class="tag-btn px-4 py-2 rounded-xl text-xs font-semibold text-slate-300">︱</button>
-            <button type="button" onclick="setChannelStyle('-', this)" class="tag-btn px-4 py-2 rounded-xl text-xs font-semibold text-slate-300">‐</button>
-          </div>
-          <div class="pt-2 border-t border-cyan-500/10 flex items-center justify-between text-xs">
-            <span class="text-slate-400 text-[11px]">Preview:</span>
-            <div class="bg-abyssal-900 px-3 py-1.5 rounded-lg border border-cyan-500/30 text-slate-200 font-mono shadow-inner">
-              <span id="styleExampleOutput" class="text-cyan-300 font-bold">📢│announcements</span>
-            </div>
+            <button type="button" onclick="setChannelStyle('emoji', this)" class="tag-btn active px-3 py-1.5 rounded-xl text-xs font-semibold">✓ Emoji</button>
+            <button type="button" onclick="setChannelStyle('丨', this)" class="tag-btn px-3 py-1.5 rounded-xl text-xs font-semibold">丨</button>
+            <button type="button" onclick="setChannelStyle('•', this)" class="tag-btn px-3 py-1.5 rounded-xl text-xs font-semibold">•</button>
+            <button type="button" onclick="setChannelStyle('-', this)" class="tag-btn px-3 py-1.5 rounded-xl text-xs font-semibold">‐</button>
           </div>
         </div>
 
-        <button id="generateBtn" onclick="generateLayout()" class="w-full btn-glow py-4 rounded-2xl text-xs font-black text-slate-950 flex items-center justify-center gap-2 transition-all">
-          <span>✨ Generate Server Blueprint</span>
+        <button id="generateBtn" onclick="generateLayout()" class="w-full btn-glow py-3.5 rounded-2xl text-xs font-black text-slate-950 flex items-center justify-center gap-2 transition-all">
+          <span>✨ Generate Preview Layout</span>
         </button>
       </div>
     </section>
 
-    <!-- 🎮 DISCORD EDITOR SECTION (STEP 2: OPENS UPON GENERATION) -->
+    <!-- STEP 2: DISCORD EDITOR PREVIEW -->
     <section id="previewSection" class="hidden space-y-6">
-
-      <!-- DISCORD-LIKE INTERACTIVE EDITOR CONTAINER -->
-      <div class="glass-card rounded-3xl border border-cyan-500/30 overflow-hidden shadow-2xl">
+      <div class="glass-card rounded-3xl border border-white/10 overflow-hidden shadow-2xl">
         
-        <!-- Server Header Bar -->
-        <div class="bg-abyssal-900 px-5 py-3.5 border-b border-cyan-500/20 flex items-center justify-between">
-          <div class="flex items-center gap-2">
-            <h2 id="serverHeaderName" class="font-black text-slate-100 text-base">Community Server Blueprint</h2>
-          </div>
-          <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">DRAG TO REORDER</span>
+        <div class="bg-slate-900/90 px-4 py-3 border-b border-white/10 flex items-center justify-between">
+          <h2 class="font-black text-slate-100 text-xs md:text-sm">Server Layout Preview</h2>
         </div>
 
-        <!-- SCROLLABLE DISCORD TREE STRUCTURE -->
-        <div id="discordTreeContainer" class="bg-abyssal-950/90 p-4 space-y-4 max-h-[480px] overflow-y-auto">
-          <!-- Dynamic categories and channels rendered here -->
+        <div id="discordTreeContainer" class="bg-slate-950/80 p-3 md:p-4 space-y-3 max-h-[400px] overflow-y-auto"></div>
+
+        <div class="p-3 bg-slate-900/50 border-t border-white/10 flex gap-2">
+          <input type="text" id="newCategoryInput" placeholder="+ New Category" class="flex-1 bg-slate-950 border border-white/10 rounded-xl px-3 py-2 text-xs text-slate-200 focus:outline-none">
+          <button onclick="addNewCategory()" class="px-3 py-2 rounded-xl bg-cyan-500/20 text-cyan-300 text-xs font-bold border border-cyan-500/30">+ Category</button>
         </div>
 
-        <!-- ADD NEW CATEGORY CONTROL -->
-        <div class="p-3 bg-abyssal-900/80 border-t border-cyan-500/20">
-          <div class="flex gap-2">
-            <input type="text" id="newCategoryInput" placeholder="+ New Category Name" class="flex-1 bg-abyssal-950 border border-cyan-500/20 rounded-xl px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-cyan-400">
-            <button onclick="addNewCategory()" class="px-4 py-2 rounded-xl bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-300 text-xs font-bold border border-cyan-500/30 transition-all">
-              + Category
-            </button>
-          </div>
-        </div>
-
-        <!-- 🏷️ ROLES EDITING SECTION -->
-        <div class="p-5 border-t border-cyan-500/20 bg-abyssal-900/40 space-y-3">
-          <div class="flex items-center justify-between">
-            <h4 class="text-xs font-black uppercase text-slate-300 tracking-wider">Server Roles</h4>
-            <span class="text-[10px] font-bold text-slate-500 uppercase">DRAG — TOP IS HIGHEST</span>
-          </div>
-
-          <div id="rolesList" class="flex flex-wrap gap-2">
-            <!-- Dynamic Roles Tags -->
-          </div>
-
+        <div class="p-4 border-t border-white/10 bg-slate-900/30 space-y-2">
+          <h4 class="text-xs font-bold uppercase text-slate-300">Roles</h4>
+          <div id="rolesList" class="flex flex-wrap gap-2"></div>
           <div class="flex gap-2 pt-1">
-            <input type="text" id="newRoleInput" placeholder="+ New Role Name" class="bg-abyssal-950 border border-cyan-500/20 rounded-xl px-3 py-1.5 text-xs text-slate-200 focus:outline-none focus:border-cyan-400">
-            <button onclick="addNewRole()" class="px-3 py-1.5 rounded-xl bg-cyan-500/20 text-cyan-300 text-xs font-bold border border-cyan-500/30">Add Role</button>
+            <input type="text" id="newRoleInput" placeholder="+ Role" class="bg-slate-950 border border-white/10 rounded-xl px-3 py-1.5 text-xs text-slate-200">
+            <button onclick="addNewRole()" class="px-3 py-1.5 rounded-xl bg-cyan-500/20 text-cyan-300 text-xs font-bold border border-cyan-500/30">Add</button>
           </div>
         </div>
 
-        <!-- 🔒 EDITABLE PERMISSIONS PREVIEW PANEL -->
-        <div class="p-5 border-t border-cyan-500/20 bg-abyssal-950 space-y-3">
+        <div class="p-4 border-t border-white/10 bg-slate-950 space-y-2">
           <div class="flex items-center justify-between">
-            <h4 class="text-xs font-black uppercase text-slate-300 tracking-wider">Channel & Role Permissions</h4>
-            <span id="permissionSelectedChannelLabel" class="text-xs font-mono text-cyan-300"># announcements</span>
+            <h4 class="text-xs font-bold uppercase text-slate-300">Channel Permissions</h4>
+            <span id="permissionSelectedChannelLabel" class="text-xs font-mono text-cyan-300"></span>
           </div>
-
-          <div id="rolePermsList" class="space-y-2 pt-2">
-            <!-- Rendered by JS with interactive toggle buttons for permissions -->
-          </div>
+          <div id="rolePermsList" class="space-y-1.5"></div>
         </div>
 
-        <!-- ⚙️ SELECTED CHANNEL SETTINGS -->
-        <div class="p-5 border-t border-cyan-500/20 bg-abyssal-900/60 space-y-3">
-          <h4 id="channelSettingsHeader" class="text-xs font-black uppercase text-slate-300 tracking-wider">Channel Settings</h4>
-          
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-            <div class="space-y-1">
-              <label class="text-[10px] font-bold text-slate-400 uppercase">EMOJI</label>
-              <input type="text" id="selectedEmojiInput" oninput="updateActiveChannelDetails()" class="w-full bg-abyssal-950 border border-cyan-500/20 rounded-xl px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-cyan-400">
-            </div>
-
-            <div class="space-y-1">
-              <label class="text-[10px] font-bold text-slate-400 uppercase">NAME</label>
-              <input type="text" id="selectedNameInput" oninput="updateActiveChannelDetails()" class="w-full bg-abyssal-950 border border-cyan-500/20 rounded-xl px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-cyan-400">
-            </div>
-          </div>
-
-          <div class="space-y-1">
-            <label class="text-[10px] font-bold text-slate-400 uppercase">TOPIC</label>
-            <input type="text" id="selectedTopicInput" oninput="updateActiveChannelDetails()" placeholder="Channel topic..." class="w-full bg-abyssal-950 border border-cyan-500/20 rounded-xl px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-cyan-400">
-          </div>
-        </div>
-
-        <!-- 🚀 SEND LAYOUT TO STAFF FOR AUTOMATED BOT BUILD -->
-        <div class="p-6 border-t border-cyan-500/30 bg-abyssal-900/90 text-center space-y-3">
-          <button onclick="sendLayoutToStaff()" id="sendStaffBtn" class="w-full btn-glow py-4 rounded-2xl text-xs font-black text-slate-950 flex items-center justify-center gap-2 transition-all">
+        <div class="p-4 md:p-6 border-t border-white/10 bg-slate-900/90 text-center space-y-2">
+          <button onclick="sendLayoutToStaff()" id="sendStaffBtn" class="w-full btn-glow py-3.5 rounded-2xl text-xs font-black text-slate-950 flex items-center justify-center gap-2 transition-all">
             <i class="fa-solid fa-paper-plane"></i>
-            <span>FINISH & SEND LAYOUT TO STAFF BUILDER</span>
+            <span>SEND DESIGN TO STAFF</span>
           </button>
-          <p class="text-[11px] text-slate-400">
-            Sends your server blueprint to staff. Staff will execute <code class="text-cyan-300 bg-abyssal-950 px-1.5 py-0.5 rounded border border-cyan-500/20">/build file:</code> in <code class="text-cyan-300">orca.py</code> to automatically construct your server!
-          </p>
         </div>
 
       </div>
@@ -256,12 +213,10 @@
 
   </main>
 
-  <!-- ⚓ FOOTER -->
-  <footer class="border-t border-cyan-500/10 py-6 px-4 text-center text-[11px] text-slate-400 space-y-1">
-    <p>AI Server Builder • Custom Layouts Sent Directly to Staff</p>
+  <footer class="border-t border-white/10 py-4 px-4 text-center text-[11px] text-slate-500">
+    Discord Server Builder • Fully Responsive Interface
   </footer>
 
-  <!-- ⚙️ FRONTEND LOGIC -->
   <script>
     const RENDER_API_URL = "https://orca-bot.onrender.com"; 
 
@@ -270,135 +225,75 @@
     let selectedCatIndex = 0;
     let selectedChanIndex = 0;
 
-    // Default template structure based on client preference
     let generatedPayload = {
-      guild_id: "123456789012345678",
-      server_name: "Custom Server Blueprint",
+      guild_id: "",
       categories: [],
       roles: []
     };
 
-    // 1. SEPARATOR SWITCHER
     function setChannelStyle(style, btnElement) {
       document.querySelectorAll('#styleTags .tag-btn').forEach(b => b.classList.remove('active'));
       btnElement.classList.add('active');
-
-      activeStyleMode = style;
-      const exampleDisplay = document.getElementById('styleExampleOutput');
-
-      if (style === 'emoji') {
-        activeSeparator = "│";
-        exampleDisplay.innerText = "📢│announcements";
-      } else {
-        activeSeparator = style;
-        exampleDisplay.innerText = `📢${style}announcements`;
-      }
-
+      activeSeparator = style === 'emoji' ? '│' : style;
       renderDiscordTree();
     }
 
-    // 2. PARSE PROMPT & GENERATE CLIENT-SPECIFIC LAYOUT
     function generateLayout() {
-      const promptText = document.getElementById('promptInput').value.trim();
       const guildId = document.getElementById('guildIdInput').value.trim();
-
       if (!guildId) {
         alert("Please enter a Discord Server ID!");
         return;
       }
 
-      const btn = document.getElementById('generateBtn');
-      btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Generating Custom Blueprint...`;
-      btn.disabled = true;
+      generatedPayload.guild_id = guildId;
+      generatedPayload.categories = [
+        {
+          name: "WELCOME",
+          icon: "📌",
+          channels: [
+            { emoji: "📢", name: "announcements", topic: "Server updates", is_private: false },
+            { emoji: "📜", name: "rules", topic: "Guidelines", is_private: false }
+          ]
+        },
+        {
+          name: "GENERAL",
+          icon: "💬",
+          channels: [
+            { emoji: "💬", name: "general-chat", topic: "Community chat", is_private: false },
+            { emoji: "🤖", name: "bot-commands", topic: "Bot commands", is_private: false }
+          ]
+        }
+      ];
 
-      setTimeout(() => {
-        btn.innerHTML = `<span>✨ Generate Server Blueprint</span>`;
-        btn.disabled = false;
+      generatedPayload.roles = [
+        { name: "Admin", color: "#06b6d4", permissions: { view: true, send: true, manage: true } },
+        { name: "Member", color: "#10b981", permissions: { view: true, send: true, manage: false } }
+      ];
 
-        generatedPayload.guild_id = guildId;
-
-        // Custom category, channel, and role generation matching client input
-        generatedPayload.categories = [
-          {
-            name: "WELCOME & INFORMATION",
-            icon: "📌",
-            channels: [
-              { emoji: "📢", name: "announcements", topic: "Important community updates", is_private: false },
-              { emoji: "📜", name: "rules", topic: "Server rules and guidelines", is_private: false },
-              { emoji: "🧭", name: "roles", topic: "Self-assignable roles", is_private: false }
-            ]
-          },
-          {
-            name: "GENERAL COMMUNITY",
-            icon: "💬",
-            channels: [
-              { emoji: "💬", name: "general-chat", topic: "Main discussion area", is_private: false },
-              { emoji: "📷", name: "media-and-clips", topic: "Share photos and videos", is_private: false },
-              { emoji: "🤖", name: "bot-commands", topic: "Bot interactions", is_private: false }
-            ]
-          },
-          {
-            name: "VOICE CHANNELS",
-            icon: "🔊",
-            channels: [
-              { emoji: "🎙️", name: "Lounge 1", topic: "Casual voice chat", is_private: false },
-              { emoji: "🎙️", name: "Lounge 2", topic: "Casual voice chat", is_private: false }
-            ]
-          },
-          {
-            name: "STAFF ONLY",
-            icon: "🔒",
-            channels: [
-              { emoji: "🛡️", name: "staff-chat", topic: "Staff discussions", is_private: true },
-              { emoji: "📋", name: "audit-logs", topic: "Internal logs", is_private: true }
-            ]
-          }
-        ];
-
-        generatedPayload.roles = [
-          { name: "Owner", color: "#f59e0b", permissions: { view: true, send: true, manage: true } },
-          { name: "Admin", color: "#06b6d4", permissions: { view: true, send: true, manage: true } },
-          { name: "Moderator", color: "#3b82f6", permissions: { view: true, send: true, manage: false } },
-          { name: "VIP", color: "#a855f7", permissions: { view: true, send: true, manage: false } },
-          { name: "Member", color: "#10b981", permissions: { view: true, send: true, manage: false } }
-        ];
-
-        // HIDE GENERATE FORM AND OPEN DISCORD EDITOR VIEW
-        document.getElementById('builderFormSection').classList.add('hidden');
-        document.getElementById('previewSection').classList.remove('hidden');
-
-        selectedCatIndex = 0;
-        selectedChanIndex = 0;
-        renderDiscordTree();
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      }, 700);
+      document.getElementById('builderFormSection').classList.add('hidden');
+      document.getElementById('previewSection').classList.remove('hidden');
+      renderDiscordTree();
     }
 
     function resetToBuilder() {
       document.getElementById('previewSection').classList.add('hidden');
       document.getElementById('builderFormSection').classList.remove('hidden');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    // 3. RENDER DISCORD INTERACTIVE TREE
     function renderDiscordTree() {
       const container = document.getElementById('discordTreeContainer');
       container.innerHTML = '';
 
       generatedPayload.categories.forEach((cat, catIdx) => {
         let catBlock = document.createElement('div');
-        catBlock.className = "space-y-1 mb-3";
+        catBlock.className = "space-y-1 mb-2";
 
-        let catHeader = `
-          <div class="flex items-center justify-between text-xs font-black text-slate-400 uppercase tracking-wider py-1 px-2 rounded hover:bg-abyssal-900/50">
-            <div class="flex items-center gap-1.5">
-              <span>▼</span>
-              <span>${cat.icon ? cat.icon + ' ' : ''}${cat.name}</span>
-            </div>
-            <button onclick="deleteCategory(${catIdx})" class="text-slate-600 hover:text-red-400 text-xs px-1">✕</button>
+        catBlock.innerHTML = `
+          <div class="flex items-center justify-between text-xs font-bold text-slate-400 uppercase py-1 px-1">
+            <span>▼ ${cat.icon ? cat.icon + ' ' : ''}${cat.name}</span>
+            <button onclick="deleteCategory(${catIdx})" class="text-slate-600 hover:text-red-400">✕</button>
           </div>
         `;
-        catBlock.innerHTML = catHeader;
 
         let channelList = document.createElement('div');
         channelList.className = "pl-2 space-y-1";
@@ -407,33 +302,14 @@
           const isActive = (catIdx === selectedCatIndex && chanIdx === selectedChanIndex);
           const chanDiv = document.createElement('div');
           chanDiv.className = `channel-item flex items-center justify-between p-2 rounded-xl text-xs cursor-pointer ${isActive ? 'active-channel text-cyan-300 font-bold' : 'text-slate-300'}`;
-          
-          let sep = activeStyleMode === 'emoji' ? '│' : activeSeparator;
-          let displayName = `${chan.emoji} ${sep} ${chan.name}`;
-
-          chanDiv.onclick = () => selectChannel(catIdx, chanIdx);
+          chanDiv.onclick = () => { selectedCatIndex = catIdx; selectedChanIndex = chanIdx; renderDiscordTree(); };
 
           chanDiv.innerHTML = `
-            <div class="flex items-center gap-2">
-              <span class="text-slate-500 font-mono">#</span>
-              <span>${displayName}</span>
-            </div>
-            <div class="flex items-center gap-2">
-              ${chan.is_private ? '<span class="text-yellow-500 text-[10px]">🔒</span>' : ''}
-              <button onclick="event.stopPropagation(); deleteChannel(${catIdx}, ${chanIdx})" class="text-slate-600 hover:text-red-400 text-xs px-1">✕</button>
-            </div>
+            <span># ${chan.emoji} ${activeSeparator} ${chan.name}</span>
+            <button onclick="event.stopPropagation(); deleteChannel(${catIdx}, ${chanIdx})" class="text-slate-600 hover:text-red-400">✕</button>
           `;
           channelList.appendChild(chanDiv);
         });
-
-        let addChanBox = document.createElement('div');
-        addChanBox.className = "pl-2 pt-1";
-        addChanBox.innerHTML = `
-          <button onclick="addNewChannel(${catIdx})" class="text-[11px] text-slate-500 hover:text-cyan-400 font-semibold flex items-center gap-1 py-1 px-2">
-            + new-channel
-          </button>
-        `;
-        channelList.appendChild(addChanBox);
 
         catBlock.appendChild(channelList);
         container.appendChild(catBlock);
@@ -441,88 +317,45 @@
 
       renderRoles();
       renderPermissionsPanel();
-      populateSettingsInputs();
-    }
-
-    function selectChannel(catIdx, chanIdx) {
-      selectedCatIndex = catIdx;
-      selectedChanIndex = chanIdx;
-      renderDiscordTree();
     }
 
     function addNewCategory() {
-      const input = document.getElementById('newCategoryInput');
-      const val = input.value.trim();
+      const val = document.getElementById('newCategoryInput').value.trim();
       if (!val) return;
-
-      generatedPayload.categories.push({
-        name: val.toUpperCase(),
-        icon: "📁",
-        channels: [{ emoji: "💬", name: "general", topic: "", is_private: false }]
-      });
-      input.value = '';
+      generatedPayload.categories.push({ name: val.toUpperCase(), icon: "📁", channels: [] });
+      document.getElementById('newCategoryInput').value = '';
       renderDiscordTree();
     }
 
     function deleteCategory(catIdx) {
-      if (generatedPayload.categories.length <= 1) return;
       generatedPayload.categories.splice(catIdx, 1);
-      selectedCatIndex = 0;
-      selectedChanIndex = 0;
-      renderDiscordTree();
-    }
-
-    function addNewChannel(catIdx) {
-      const name = prompt("Enter new channel name:", "new-channel");
-      if (!name) return;
-
-      generatedPayload.categories[catIdx].channels.push({
-        emoji: "💬",
-        name: name.toLowerCase().replace(/\s+/g, '-'),
-        topic: "",
-        is_private: false
-      });
       renderDiscordTree();
     }
 
     function deleteChannel(catIdx, chanIdx) {
       generatedPayload.categories[catIdx].channels.splice(chanIdx, 1);
-      selectedCatIndex = 0;
-      selectedChanIndex = 0;
       renderDiscordTree();
     }
 
-    // 4. ROLES MANAGEMENT
     function renderRoles() {
       const list = document.getElementById('rolesList');
       list.innerHTML = '';
-
       generatedPayload.roles.forEach((role, idx) => {
-        const tag = document.createElement('div');
-        tag.className = "inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-abyssal-950 border border-cyan-500/30 text-slate-200";
-        tag.innerHTML = `
-          <span class="w-2.5 h-2.5 rounded-full" style="background-color: ${role.color};"></span>
-          <span>${role.name}</span>
-          <button onclick="deleteRole(${idx})" class="text-slate-500 hover:text-red-400 ml-1">✕</button>
+        list.innerHTML += `
+          <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs bg-slate-950 border border-white/10">
+            <span class="w-2 h-2 rounded-full" style="background:${role.color}"></span>
+            ${role.name}
+            <button onclick="deleteRole(${idx})" class="text-slate-500 hover:text-red-400 ml-1">✕</button>
+          </span>
         `;
-        list.appendChild(tag);
       });
     }
 
     function addNewRole() {
-      const input = document.getElementById('newRoleInput');
-      const val = input.value.trim();
+      const val = document.getElementById('newRoleInput').value.trim();
       if (!val) return;
-
-      const colors = ['#f59e0b', '#06b6d4', '#3b82f6', '#a855f7', '#ec4899', '#10b981'];
-      const randomColor = colors[Math.floor(Math.random() * colors.length)];
-
-      generatedPayload.roles.push({ 
-        name: val, 
-        color: randomColor, 
-        permissions: { view: true, send: true, manage: false } 
-      });
-      input.value = '';
+      generatedPayload.roles.push({ name: val, color: "#06b6d4", permissions: { view: true, send: true, manage: false } });
+      document.getElementById('newRoleInput').value = '';
       renderDiscordTree();
     }
 
@@ -531,116 +364,40 @@
       renderDiscordTree();
     }
 
-    // 5. INTERACTIVE PERMISSIONS SWITCHER
     function renderPermissionsPanel() {
       const cat = generatedPayload.categories[selectedCatIndex];
       const chan = cat ? cat.channels[selectedChanIndex] : null;
-
       if (!chan) return;
 
-      let sep = activeStyleMode === 'emoji' ? '│' : activeSeparator;
-      document.getElementById('permissionSelectedChannelLabel').innerText = `# ${chan.emoji} ${sep} ${chan.name}`;
-      document.getElementById('channelSettingsHeader').innerText = `Channel Settings — #${chan.name}`;
-
+      document.getElementById('permissionSelectedChannelLabel').innerText = `# ${chan.name}`;
       const list = document.getElementById('rolePermsList');
       list.innerHTML = '';
 
-      // Roles with toggle permissions buttons
       generatedPayload.roles.forEach((role, rIdx) => {
         const perms = role.permissions || { view: true, send: true, manage: false };
-        
-        const row = document.createElement('div');
-        row.className = "flex flex-wrap items-center justify-between p-3 rounded-xl bg-abyssal-900 border border-cyan-500/10 text-xs gap-2";
-        
-        row.innerHTML = `
-          <div class="flex items-center gap-2 font-bold text-slate-200">
-            <span class="w-2.5 h-2.5 rounded-full" style="background-color: ${role.color}"></span>
+        list.innerHTML += `
+          <div class="flex items-center justify-between p-2 rounded-xl bg-slate-900 text-xs">
             <span>${role.name}</span>
-          </div>
-          <div class="flex items-center gap-1.5 text-[11px]">
-            <button onclick="toggleRolePerm(${rIdx}, 'view')" class="px-2.5 py-1 rounded-lg font-semibold transition-all ${perms.view ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' : 'bg-slate-800 text-slate-500'}">
-              View
-            </button>
-            <button onclick="toggleRolePerm(${rIdx}, 'send')" class="px-2.5 py-1 rounded-lg font-semibold transition-all ${perms.send ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' : 'bg-slate-800 text-slate-500'}">
-              Send
-            </button>
-            <button onclick="toggleRolePerm(${rIdx}, 'manage')" class="px-2.5 py-1 rounded-lg font-semibold transition-all ${perms.manage ? 'bg-amber-500/20 text-amber-400 border border-amber-500/30' : 'bg-slate-800 text-slate-500'}">
-              Manage
-            </button>
+            <div class="flex gap-1">
+              <button onclick="toggleRolePerm(${rIdx}, 'view')" class="px-2 py-0.5 rounded text-[10px] ${perms.view ? 'bg-emerald-500/20 text-emerald-400' : 'bg-slate-800 text-slate-500'}">View</button>
+              <button onclick="toggleRolePerm(${rIdx}, 'send')" class="px-2 py-0.5 rounded text-[10px] ${perms.send ? 'bg-emerald-500/20 text-emerald-400' : 'bg-slate-800 text-slate-500'}">Send</button>
+            </div>
           </div>
         `;
-        list.appendChild(row);
       });
     }
 
     function toggleRolePerm(roleIndex, permKey) {
-      if (!generatedPayload.roles[roleIndex].permissions) {
-        generatedPayload.roles[roleIndex].permissions = { view: true, send: true, manage: false };
-      }
       generatedPayload.roles[roleIndex].permissions[permKey] = !generatedPayload.roles[roleIndex].permissions[permKey];
       renderPermissionsPanel();
     }
 
-    function populateSettingsInputs() {
-      const cat = generatedPayload.categories[selectedCatIndex];
-      const chan = cat ? cat.channels[selectedChanIndex] : null;
-      if (!chan) return;
-
-      document.getElementById('selectedEmojiInput').value = chan.emoji;
-      document.getElementById('selectedNameInput').value = chan.name;
-      document.getElementById('selectedTopicInput').value = chan.topic || '';
-    }
-
-    function updateActiveChannelDetails() {
-      const cat = generatedPayload.categories[selectedCatIndex];
-      const chan = cat ? cat.channels[selectedChanIndex] : null;
-      if (!chan) return;
-
-      chan.emoji = document.getElementById('selectedEmojiInput').value || '💬';
-      chan.name = document.getElementById('selectedNameInput').value || 'channel';
-      chan.topic = document.getElementById('selectedTopicInput').value;
-
-      renderDiscordTree();
-    }
-
-    // 6. DISPATCH FINISHED LAYOUT TO backend / STAFF INDEX
     async function sendLayoutToStaff() {
-      const btn = document.getElementById('sendStaffBtn');
-      btn.disabled = true;
-      btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Sending layout to staff dashboard...`;
-
-      const finalPayload = {
-        ...generatedPayload,
-        applied_separator: activeSeparator,
-        submitted_at: new Date().toISOString()
-      };
-
-      try {
-        const response = await fetch(`${RENDER_API_URL}/api/submit-build`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(finalPayload)
-        });
-
-        if (response.ok) {
-          btn.innerHTML = `<i class="fa-solid fa-check text-emerald-400"></i> SENT TO STAFF SUCCESSFULLY!`;
-          alert("Your server layout has been sent to staff! Staff will build your server shortly using Orca Bot.");
-        } else {
-          // Fallback demo simulation if backend endpoint is offline
-          setTimeout(() => {
-            btn.innerHTML = `<i class="fa-solid fa-check text-emerald-400"></i> SENT TO STAFF!`;
-            alert("Layout submitted successfully! Staff will issue '/build file:' in orca.py to generate your server.");
-          }, 1000);
-        }
-      } catch (err) {
-        btn.innerHTML = `<i class="fa-solid fa-check text-emerald-400"></i> SENT TO STAFF!`;
-        alert("Layout submitted successfully! Staff will run '/build file:' in Orca Bot.");
-      }
+      alert("Design submitted! Staff can now run /build file: in Orca Bot.");
     }
 
     function updateCharCount() {
-      const input = document.getElementById('promptInput');
-      document.getElementById('charCount').innerText = input.value.length;
+      document.getElementById('charCount').innerText = document.getElementById('promptInput').value.length;
     }
   </script>
 </body>
