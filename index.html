@@ -38,7 +38,6 @@
       margin: 0;
     }
 
-    /* Deep Sea Canvas Background */
     #seaCanvas {
       position: fixed;
       top: 0;
@@ -113,7 +112,6 @@
 </head>
 <body class="min-h-screen flex flex-col justify-between relative selection:bg-cyan-500 selection:text-slate-950">
 
-  <!-- Deep Sea & Realistic Animals Canvas -->
   <canvas id="seaCanvas"></canvas>
 
   <!-- Header -->
@@ -132,9 +130,7 @@
   <!-- MAIN CONTAINER -->
   <main class="max-w-5xl mx-auto px-4 py-6 md:py-10 space-y-8 flex-1 w-full z-10 relative">
 
-    <!-- ======================================================= -->
     <!-- WINDOW 1: GATE / LANDING PAGE -->
-    <!-- ======================================================= -->
     <div id="landingGate" class="space-y-10 text-center py-6 md:py-10 fade-step-enter">
       
       <div class="space-y-4 max-w-2xl mx-auto">
@@ -143,7 +139,7 @@
           <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">Server Architect</span>
         </h1>
         <p class="text-sm md:text-base text-slate-300 leading-relaxed font-normal px-2">
-          Describe your dream server. ORCA AI designs the structure. You preview and customize categories, channels, and roles, then submit it directly for automated staff deployment.
+          Describe your server topic or vision. ORCA AI generates named channels, voice lounges, and role hierarchies up to Discord limits for direct automated deployment.
         </p>
 
         <div class="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
@@ -160,31 +156,29 @@
       <div id="howItWorks" class="grid grid-cols-1 md:grid-cols-3 gap-4 text-left pt-6">
         <div class="glass-card p-5 rounded-3xl space-y-2">
           <div class="text-2xl">🗣️</div>
-          <h3 class="font-extrabold text-sm text-cyan-300">1. Describe & Configure</h3>
-          <p class="text-xs text-slate-400">Specify requirements, category counts, channels per category, and visual themes.</p>
+          <h3 class="font-extrabold text-sm text-cyan-300">1. Prompt AI Engine</h3>
+          <p class="text-xs text-slate-400">Describe your server topic or requirements. Set category and channel bounds up to Discord limits.</p>
         </div>
         <div class="glass-card p-5 rounded-3xl space-y-2">
           <div class="text-2xl">🧠</div>
           <h3 class="font-extrabold text-sm text-cyan-300">2. Interactive Editor</h3>
-          <p class="text-xs text-slate-400">Preview and customize channels, voice rooms, roles, and set permissions live.</p>
+          <p class="text-xs text-slate-400">Review AI-generated channel names, voice lounges, and roles. Customize separators and permissions in real-time.</p>
         </div>
         <div class="glass-card p-5 rounded-3xl space-y-2">
           <div class="text-2xl">🚀</div>
-          <h3 class="font-extrabold text-sm text-cyan-300">3. Staff Dispatch</h3>
-          <p class="text-xs text-slate-400">Send your design payload directly to ORCA staff for immediate guild deployment.</p>
+          <h3 class="font-extrabold text-sm text-cyan-300">3. Direct Bot Deploy</h3>
+          <p class="text-xs text-slate-400">Submit your blueprint to staff or download the JSON payload to execute `/build` in Discord.</p>
         </div>
       </div>
 
     </div>
 
-    <!-- ======================================================= -->
     <!-- WINDOW 2: CONFIGURATION & BUILDER FORM -->
-    <!-- ======================================================= -->
     <section id="builderFormSection" class="hidden glass-card-glow p-5 md:p-8 rounded-3xl space-y-6 shadow-2xl fade-step-enter">
       <div class="flex items-center justify-between border-b border-white/10 pb-3">
         <div class="flex items-center gap-2">
           <span class="text-cyan-400 text-lg"><i class="fa-solid fa-sliders"></i></span>
-          <h2 class="text-sm md:text-base font-black text-cyan-400 uppercase tracking-wider">Server Setup & Parameters</h2>
+          <h2 class="text-sm md:text-base font-black text-cyan-400 uppercase tracking-wider">AI Layout Setup & Parameters</h2>
         </div>
         <button onclick="showGate()" class="text-xs font-bold text-slate-400 hover:text-slate-200 transition-all">← Back to Home</button>
       </div>
@@ -193,8 +187,10 @@
         
         <!-- Prompt / Requirements Textarea -->
         <div class="space-y-1.5">
-          <label class="block text-xs font-bold uppercase tracking-wider text-slate-300">Server Requirements & Concept</label>
-          <textarea id="promptInput" rows="3" maxlength="4000" oninput="updateCharCount()" class="w-full bg-slate-950/80 border border-white/10 rounded-2xl p-3.5 text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-cyan-400 transition-all resize-none" placeholder="Describe channels, community goals, special categories, or roles you need..."></textarea>
+          <label class="block text-xs font-bold uppercase tracking-wider text-slate-300">
+            <i class="fa-solid fa-brain text-cyan-400 mr-1"></i> AI Prompt & Community Requirements
+          </label>
+          <textarea id="promptInput" rows="3" maxlength="4000" oninput="updateCharCount()" class="w-full bg-slate-950/80 border border-white/10 rounded-2xl p-3.5 text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-cyan-400 transition-all resize-none" placeholder="e.g. A competitive Valorant esports server with tournament lobbies, scrim channels, VOD review, VIP lounges, and staff command..."></textarea>
           <div class="text-right text-[10px] text-slate-500"><span id="charCount">0</span>/4000</div>
         </div>
 
@@ -205,48 +201,52 @@
             <input type="text" id="guildNameInput" value="My Custom Discord Server" class="w-full bg-slate-950/80 border border-white/10 rounded-2xl p-3.5 text-xs text-white focus:outline-none focus:border-cyan-400 transition-all">
           </div>
           <div class="space-y-1.5">
-            <label class="block text-xs font-bold uppercase tracking-wider text-slate-300">Target Discord Guild ID</label>
-            <input type="text" id="guildIdInput" placeholder="Enter Guild ID" value="123456789012345678" class="w-full bg-slate-950/80 border border-white/10 rounded-2xl p-3.5 text-xs font-mono text-cyan-300 focus:outline-none focus:border-cyan-400 transition-all">
+            <label class="block text-xs font-bold uppercase tracking-wider text-slate-300">Target Discord Guild ID (Optional)</label>
+            <input type="text" id="guildIdInput" placeholder="e.g. 987654321098765432" value="" class="w-full bg-slate-950/80 border border-white/10 rounded-2xl p-3.5 text-xs font-mono text-cyan-300 focus:outline-none focus:border-cyan-400 transition-all">
           </div>
         </div>
 
-        <!-- SLIDERS: Category Count & Channels Per Category -->
+        <!-- DISCORD LIMIT SLIDERS: Up to 50 Categories & 50 Channels per Category -->
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
           
-          <!-- Category Count Slider -->
+          <!-- Category Count Slider (Max 50) -->
           <div class="space-y-2 bg-slate-950/60 p-4 rounded-2xl border border-white/5">
             <div class="flex justify-between items-center text-xs font-bold">
-              <span class="text-slate-200 uppercase tracking-wider"><i class="fa-solid fa-folder-tree text-cyan-400 mr-1.5"></i> How Many Categories?</span>
-              <span id="catValLabel" class="text-cyan-400 font-mono text-xs font-black bg-cyan-950 px-2.5 py-1 rounded-lg border border-cyan-500/30">4</span>
+              <span class="text-slate-200 uppercase tracking-wider"><i class="fa-solid fa-folder-tree text-cyan-400 mr-1.5"></i> Categories Count</span>
+              <span id="catValLabel" class="text-cyan-400 font-mono text-xs font-black bg-cyan-950 px-2.5 py-1 rounded-lg border border-cyan-500/30">5</span>
             </div>
-            <input type="range" id="catRangeInput" min="1" max="8" value="4" oninput="document.getElementById('catValLabel').innerText = this.value" class="w-full accent-cyan-400 cursor-pointer">
+            <input type="range" id="catRangeInput" min="1" max="50" value="5" oninput="updateLimitsLabels()" class="w-full accent-cyan-400 cursor-pointer">
             <div class="flex justify-between text-[10px] text-slate-500 font-mono">
               <span>1 Category</span>
-              <span>4</span>
-              <span>8 Categories</span>
+              <span>25</span>
+              <span>50 (Discord Max)</span>
             </div>
           </div>
 
-          <!-- Channel Count Slider -->
+          <!-- Channel Count Slider (Max 50 per category) -->
           <div class="space-y-2 bg-slate-950/60 p-4 rounded-2xl border border-white/5">
             <div class="flex justify-between items-center text-xs font-bold">
-              <span class="text-slate-200 uppercase tracking-wider"><i class="fa-solid fa-hashtag text-cyan-400 mr-1.5"></i> Channels Per Category?</span>
-              <span id="chanValLabel" class="text-cyan-400 font-mono text-xs font-black bg-cyan-950 px-2.5 py-1 rounded-lg border border-cyan-500/30">3</span>
+              <span class="text-slate-200 uppercase tracking-wider"><i class="fa-solid fa-hashtag text-cyan-400 mr-1.5"></i> Channels Per Category</span>
+              <span id="chanValLabel" class="text-cyan-400 font-mono text-xs font-black bg-cyan-950 px-2.5 py-1 rounded-lg border border-cyan-500/30">4</span>
             </div>
-            <input type="range" id="chanRangeInput" min="1" max="6" value="3" oninput="document.getElementById('chanValLabel').innerText = this.value" class="w-full accent-cyan-400 cursor-pointer">
+            <input type="range" id="chanRangeInput" min="1" max="50" value="4" oninput="updateLimitsLabels()" class="w-full accent-cyan-400 cursor-pointer">
             <div class="flex justify-between text-[10px] text-slate-500 font-mono">
               <span>1 Channel</span>
-              <span>3</span>
-              <span>6 Channels</span>
+              <span>25</span>
+              <span>50 (Limit/Cat)</span>
             </div>
           </div>
 
         </div>
 
-        <!-- VISUAL THEME & PRESET TEMPLATES -->
+        <!-- Total Channel Metric / Warning -->
+        <div id="discordLimitNotice" class="text-[11px] font-mono text-cyan-400 bg-cyan-950/40 p-2.5 rounded-xl border border-cyan-800/50 flex items-center justify-between">
+          <span><i class="fa-solid fa-calculator mr-1"></i> Total Estimated Structure: <strong id="totalCalcChannels">20</strong> Channels</span>
+          <span class="text-[10px] text-slate-400">Discord Guild Max Limit: 500 Channels</span>
+        </div>
+
+        <!-- VISUAL THEME & PRESET ARCHETYPE -->
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          
-          <!-- Theme Selection -->
           <div class="space-y-1.5">
             <label class="block text-xs font-bold uppercase tracking-wider text-slate-300">
               <i class="fa-solid fa-palette text-cyan-400 mr-1"></i> Visual Theme Accent
@@ -259,24 +259,28 @@
             </select>
           </div>
 
-          <!-- Base Preset Template -->
           <div class="space-y-1.5">
             <label class="block text-xs font-bold uppercase tracking-wider text-slate-300">
-              <i class="fa-solid fa-wand-magic-sparkles text-cyan-400 mr-1"></i> Base Preset Archetype
+              <i class="fa-solid fa-wand-magic-sparkles text-cyan-400 mr-1"></i> AI Archetype Engine
             </label>
             <select id="presetSelect" class="w-full bg-slate-950/80 border border-white/10 rounded-2xl p-3.5 text-xs text-white focus:outline-none focus:border-cyan-400 transition-all">
+              <option value="ai">AI Auto-Prompt Parsing (Recommended)</option>
               <option value="gaming">Gaming & Community Hub</option>
               <option value="esports">Esports & Tournament Organization</option>
-              <option value="store">Digital Store & Support Marketplace</option>
-              <option value="creator">Content Creator & VIP Lounge</option>
+              <option value="store">Digital Marketplace & Support</option>
+              <option value="creator">Content Creator & Stream VIP</option>
+              <option value="crypto">Trading & Crypto Community</option>
             </select>
           </div>
-
         </div>
 
-        <!-- Channel Style Separators -->
-        <div class="space-y-2 bg-slate-950/40 p-4 rounded-2xl border border-white/5">
-          <label class="block text-xs font-bold uppercase tracking-wider text-slate-300">Channel Name Style Separator</label>
+        <!-- Channel Style Separators WITH LIVE EXAMPLE PREVIEW -->
+        <div class="space-y-3 bg-slate-950/40 p-4 rounded-2xl border border-white/5">
+          <div class="flex items-center justify-between">
+            <label class="block text-xs font-bold uppercase tracking-wider text-slate-300">Channel Name Style Separator</label>
+            <span class="text-[10px] text-slate-400 font-mono">Live Style Formatting</span>
+          </div>
+          
           <div class="flex flex-wrap gap-2" id="styleTags">
             <button type="button" onclick="setChannelStyle('│', this)" class="tag-btn active px-3.5 py-1.5 rounded-xl text-xs font-mono font-semibold">│ Pipe Prefix</button>
             <button type="button" onclick="setChannelStyle('丨', this)" class="tag-btn px-3.5 py-1.5 rounded-xl text-xs font-mono font-semibold">丨 CJK Line</button>
@@ -284,20 +288,28 @@
             <button type="button" onclick="setChannelStyle('-', this)" class="tag-btn px-3.5 py-1.5 rounded-xl text-xs font-mono font-semibold">‐ Dash</button>
             <button type="button" onclick="setChannelStyle('', this)" class="tag-btn px-3.5 py-1.5 rounded-xl text-xs font-mono font-semibold">None</button>
           </div>
+
+          <!-- LIVE EXAMPLE PREVIEW BOX -->
+          <div class="bg-slate-950 p-3 rounded-xl border border-cyan-500/30 text-xs font-mono space-y-1">
+            <div class="text-[10px] text-cyan-400 uppercase font-bold tracking-wider">Live Separator Channel Example:</div>
+            <div id="separatorLiveExample" class="text-slate-200 flex flex-wrap gap-3 pt-1">
+              <span><i class="fa-solid fa-hashtag text-cyan-400 text-[10px]"></i> <span id="exText1">│ welcome</span></span>
+              <span><i class="fa-solid fa-hashtag text-cyan-400 text-[10px]"></i> <span id="exText2">│ general-chat</span></span>
+              <span><i class="fa-solid fa-volume-high text-cyan-400 text-[10px]"></i> <span id="exText3">│ Voice Lounge</span></span>
+            </div>
+          </div>
         </div>
 
         <!-- GENERATE BUTTON -->
         <button id="generateBtn" onclick="generateLayout()" class="w-full btn-orca py-4 rounded-2xl text-xs font-black text-slate-950 flex items-center justify-center gap-2 tracking-wider uppercase transition-all shadow-xl">
-          <span>✨ Build & Preview Server Layout</span>
+          <span>✨ AI Generate & Preview Server Layout</span>
           <i class="fa-solid fa-arrow-right"></i>
         </button>
 
       </div>
     </section>
 
-    <!-- ======================================================= -->
     <!-- WINDOW 3: INTERACTIVE DISCORD PREVIEW WORKSPACE -->
-    <!-- ======================================================= -->
     <section id="previewSection" class="hidden space-y-6 fade-step-enter">
       
       <!-- Top Actions Bar -->
@@ -325,7 +337,7 @@
             </div>
 
             <!-- Dynamic Category & Channel Tree -->
-            <div id="discordTreeContainer" class="space-y-4 max-h-[380px] overflow-y-auto custom-scrollbar pr-1"></div>
+            <div id="discordTreeContainer" class="space-y-4 max-h-[420px] overflow-y-auto custom-scrollbar pr-1"></div>
           </div>
 
           <!-- Add Category Controls -->
@@ -384,7 +396,7 @@
 
           </div>
 
-          <!-- SUBMIT TO STAFF BUTTON (NO CHAT REGENERATE AT BOTTOM) -->
+          <!-- SUBMIT TO STAFF BUTTON -->
           <div class="pt-3 border-t border-white/10">
             <button onclick="sendLayoutToStaff()" id="sendStaffBtn" class="w-full btn-orca py-3.5 rounded-2xl text-xs font-black text-slate-950 flex items-center justify-center gap-2 transition-all shadow-lg tracking-wider uppercase">
               <i class="fa-solid fa-paper-plane"></i>
@@ -397,13 +409,10 @@
       </div>
     </section>
 
-    <!-- ======================================================= -->
     <!-- WINDOW 4: FINAL CONFIRMATION TRANSMISSION PAGE -->
-    <!-- ======================================================= -->
     <section id="finalSection" class="hidden min-h-[60vh] flex items-center justify-center fade-step-enter">
       <div class="glass-card-glow max-w-2xl w-full rounded-3xl p-6 sm:p-8 space-y-6 text-center border border-cyan-500/40 relative shadow-2xl">
         
-        <!-- Animated Radar Ping Icon -->
         <div class="relative mx-auto w-20 h-20 rounded-full bg-cyan-500/10 border-2 border-cyan-400/50 flex items-center justify-center text-cyan-400 text-3xl shadow-xl shadow-cyan-500/20">
           <i class="fa-solid fa-paper-plane animate-pulse"></i>
         </div>
@@ -412,9 +421,9 @@
           <span class="px-3.5 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-300 text-xs font-mono font-bold tracking-widest uppercase">
             Transmission Received
           </span>
-          <h2 class="text-2xl sm:text-3xl font-black text-white">Design Sent — Waiting for Staff</h2>
+          <h2 class="text-2xl sm:text-3xl font-black text-white">Design Dispatched with JSON File Attachment</h2>
           <p class="text-xs sm:text-sm text-slate-300 max-w-md mx-auto leading-relaxed">
-            Your server blueprint payload has been logged and dispatched to the ORCA AI Staff command dashboard. Staff will review your blueprint and run <code class="text-cyan-400 font-mono">/build</code> in Discord shortly.
+            Your server blueprint payload and downloadable `.json` file have been logged and sent to staff via Discord Webhook. You can also copy your blueprint directly below.
           </p>
         </div>
 
@@ -426,7 +435,7 @@
           </div>
           <div>
             <div class="text-[10px] text-slate-500 uppercase">Target Guild</div>
-            <div class="text-xs text-white truncate" id="finalGuildId">0000000000</div>
+            <div class="text-xs text-white truncate" id="finalGuildId">Not Specified</div>
           </div>
           <div>
             <div class="text-[10px] text-slate-500 uppercase">Categories</div>
@@ -442,7 +451,7 @@
         <div class="bg-cyan-950/30 border border-cyan-500/30 rounded-2xl p-4 flex items-center gap-3 text-left">
           <div class="w-3 h-3 rounded-full bg-cyan-400 animate-ping shrink-0"></div>
           <p class="text-xs text-cyan-200">
-            <strong>Status:</strong> Pending Staff Deployment. You can copy your raw blueprint JSON or return to edit if needed.
+            <strong>Status:</strong> Dispatched to Discord Webhook log channel as a downloadable `.json` file for <code class="text-cyan-400 font-mono">/build</code> execution.
           </p>
         </div>
 
@@ -466,7 +475,6 @@
     ORCA AI • Deep Sea Discord Builder
   </footer>
 
-  <!-- SCRIPT & ANGLERFISH CANVAS ANIMATION -->
   <script>
     /* -----------------------------------------------------------
      * 1. REALISTIC DEEP SEA ANIMALS CANVAS ANIMATION
@@ -482,7 +490,6 @@
     window.addEventListener('resize', resizeCanvas);
     resizeCanvas();
 
-    // Bioluminescent Particles
     const particles = Array.from({ length: 60 }, () => ({
       x: Math.random() * width,
       y: Math.random() * height,
@@ -491,7 +498,6 @@
       alpha: Math.random() * 0.6 + 0.2
     }));
 
-    // Realistic Anglerfish
     const angler = {
       x: -180,
       y: height * 0.6,
@@ -501,7 +507,6 @@
       finAngle: 0
     };
 
-    // Realistic Jellyfish Swimming
     const jellyfish = Array.from({ length: 3 }, (_, i) => ({
       x: width * (0.2 + i * 0.3),
       y: height * (0.3 + Math.random() * 0.4),
@@ -513,14 +518,12 @@
     function drawDeepSea() {
       ctx.clearRect(0, 0, width, height);
 
-      // Deep water gradient light ray
       const topLight = ctx.createRadialGradient(width * 0.5, 0, 10, width * 0.5, 0, height * 0.8);
       topLight.addColorStop(0, 'rgba(6, 182, 212, 0.08)');
       topLight.addColorStop(1, 'rgba(1, 4, 9, 0)');
       ctx.fillStyle = topLight;
       ctx.fillRect(0, 0, width, height);
 
-      // Particles
       particles.forEach(p => {
         p.y += p.speedY;
         if (p.y < -10) { p.y = height + 10; p.x = Math.random() * width; }
@@ -530,7 +533,6 @@
         ctx.fill();
       });
 
-      // Draw Jellyfish
       jellyfish.forEach(j => {
         j.pulse += 0.03;
         j.y += Math.sin(j.pulse) * 0.4 - 0.1;
@@ -541,7 +543,6 @@
         ctx.save();
         ctx.translate(j.x, j.y);
 
-        // Bell Body
         ctx.beginPath();
         ctx.arc(0, 0, j.radius * pulseScale, Math.PI, 0, false);
         ctx.quadraticCurveTo(0, j.radius * 0.5, -j.radius * pulseScale, 0);
@@ -551,7 +552,6 @@
         ctx.fill();
         ctx.stroke();
 
-        // Tentacles
         for (let t = -3; t <= 3; t += 2) {
           ctx.beginPath();
           ctx.moveTo(t * (j.radius / 4), 0);
@@ -569,7 +569,6 @@
         ctx.restore();
       });
 
-      // Update Anglerfish
       angler.x += angler.speedX;
       angler.angle += 0.02;
       angler.lureGlow += 0.06;
@@ -585,7 +584,6 @@
       ctx.save();
       ctx.translate(angler.x, currentY);
 
-      // Bioluminescent Lure Ambient Beam
       const lureX = 55;
       const lureY = -45;
       const glowRadius = 55 + Math.sin(angler.lureGlow) * 12;
@@ -600,7 +598,6 @@
       ctx.arc(lureX, lureY, glowRadius, 0, Math.PI * 2);
       ctx.fill();
 
-      // Flexible Lure Stalk
       ctx.beginPath();
       ctx.moveTo(-15, -15);
       ctx.bezierCurveTo(0, -60, 30, -65, lureX, lureY);
@@ -608,7 +605,6 @@
       ctx.lineWidth = 2.5;
       ctx.stroke();
 
-      // Glowing Lure Bulb
       ctx.beginPath();
       ctx.arc(lureX, lureY, 5, 0, Math.PI * 2);
       ctx.fillStyle = '#e0f2fe';
@@ -617,7 +613,6 @@
       ctx.fill();
       ctx.shadowBlur = 0;
 
-      // Body Outline
       ctx.beginPath();
       ctx.moveTo(40, 5);
       ctx.quadraticCurveTo(20, -30, -25, -20);
@@ -630,7 +625,6 @@
       ctx.fill();
       ctx.stroke();
 
-      // Tail Fin
       ctx.beginPath();
       ctx.moveTo(-45, 10);
       ctx.lineTo(-65, -5 + Math.sin(angler.finAngle) * 4);
@@ -642,13 +636,11 @@
       ctx.fill();
       ctx.globalAlpha = 1.0;
 
-      // Eye
       ctx.beginPath();
       ctx.arc(20, -8, 4, 0, Math.PI * 2);
       ctx.fillStyle = '#38bdf8';
       ctx.fill();
 
-      // Sharp Teeth
       ctx.fillStyle = '#f8fafc';
       ctx.beginPath();
       ctx.moveTo(38, 4); ctx.lineTo(44, 10); ctx.lineTo(34, 10);
@@ -664,14 +656,14 @@
     drawDeepSea();
 
     /* -----------------------------------------------------------
-     * 2. STATE & APPLICATION LOGIC
+     * 2. STATE & AI ENGINE LOGIC
      * ----------------------------------------------------------- */
     let activeSeparator = "│";
     let selectedCatIndex = 0;
     let selectedChanIndex = 0;
 
     let currentBlueprint = {
-      guild_id: "123456789012345678",
+      guild_id: "",
       guild_name: "My Custom Discord Server",
       theme: "cyan",
       separator: "│",
@@ -679,7 +671,6 @@
       roles: []
     };
 
-    // PAGE NAVIGATION FUNCTIONS
     function showGate() {
       document.getElementById('landingGate').classList.remove('hidden');
       document.getElementById('builderFormSection').classList.add('hidden');
@@ -701,59 +692,161 @@
       document.getElementById('charCount').innerText = val;
     }
 
+    function updateLimitsLabels() {
+      const cats = parseInt(document.getElementById('catRangeInput').value);
+      const chans = parseInt(document.getElementById('chanRangeInput').value);
+      
+      document.getElementById('catValLabel').innerText = cats;
+      document.getElementById('chanValLabel').innerText = chans;
+      
+      const total = cats * chans;
+      document.getElementById('totalCalcChannels').innerText = total;
+
+      const notice = document.getElementById('discordLimitNotice');
+      if (total > 500) {
+        notice.className = "text-[11px] font-mono text-red-400 bg-red-950/40 p-2.5 rounded-xl border border-red-800/50 flex items-center justify-between";
+        notice.innerHTML = `<span><i class="fa-solid fa-triangle-exclamation mr-1"></i> Total Structure: <strong class="text-red-300">${total}</strong> Channels (Exceeds 500 Discord limit)</span>`;
+      } else {
+        notice.className = "text-[11px] font-mono text-cyan-400 bg-cyan-950/40 p-2.5 rounded-xl border border-cyan-800/50 flex items-center justify-between";
+        notice.innerHTML = `<span><i class="fa-solid fa-calculator mr-1"></i> Total Estimated Structure: <strong>${total}</strong> Channels</span><span class="text-[10px] text-slate-400">Discord Guild Max Limit: 500 Channels</span>`;
+      }
+    }
+
+    // LIVE CHANNEL SEPARATOR EXAMPLE PREVIEW UPDATE
     function setChannelStyle(style, btn) {
       activeSeparator = style;
       document.querySelectorAll('#styleTags .tag-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
+
+      const prefix = style ? (style + " ") : "";
+      document.getElementById('exText1').innerText = `${prefix}welcome`;
+      document.getElementById('exText2').innerText = `${prefix}general-chat`;
+      document.getElementById('exText3').innerText = `${prefix}Voice Lounge`;
+      
+      currentBlueprint.separator = style;
+      if (!document.getElementById('previewSection').classList.contains('hidden')) {
+        renderBlueprint();
+      }
     }
 
-    // GENERATE BLUEPRINT FROM FORM IN WINDOW 2
+    /* AI LAYOUT GENERATOR: DYNAMICALLY NAMES CATEGORIES & CHANNELS BASED ON PROMPT KEYWORDS */
+    function generateAiNamedCategories(promptText, catCount, chanCount, archetype) {
+      const p = promptText.toLowerCase();
+
+      let topicKeywords = {
+        gaming: ["gaming", "game", "esports", "scrim", "valorant", "fortnite", "minecraft", "roblox", "apex", "league"],
+        crypto: ["crypto", "trading", "stocks", "solana", "bitcoin", "nft", "signals", "invest"],
+        store: ["store", "market", "shop", "service", "vouch", "tickets", "products", "buy"],
+        creator: ["stream", "twitch", "youtube", "tiktok", "fan", "vip", "clips", "content"],
+        study: ["study", "school", "code", "programming", "dev", "ai", "math", "class"]
+      };
+
+      let categoryPool = [];
+
+      if (p.includes("crypto") || p.includes("trading") || p.includes("stock") || archetype === "crypto") {
+        categoryPool = [
+          { name: "WELCOME & DISCLOSURE", textChans: ["rules-and-disclaimer", "announcements", "official-links", "faq"], voiceChans: ["Townhall Voice"] },
+          { name: "MARKET ANALYSIS", textChans: ["bitcoin-charts", "solana-discussion", "altcoin-gems", "daily-watchlists", "macro-news"], voiceChans: ["Live Chart Stream"] },
+          { name: "TRADING SIGNALS", textChans: ["vip-signals", "scalp-setups", "swing-trades", "trade-results"], voiceChans: ["Trading Pit 1", "Trading Pit 2"] },
+          { name: "COMMUNITY LOUNGE", textChans: ["general-chat", "crypto-memes", "bot-commands", "wins-and-losses"], voiceChans: ["Lounge 1", "Lounge 2"] },
+          { name: "STAFF & VERIFICATION", textChans: ["staff-hq", "support-tickets", "mod-logs"], voiceChans: ["Staff Meeting"] }
+        ];
+      } else if (p.includes("store") || p.includes("shop") || p.includes("vouch") || archetype === "store") {
+        categoryPool = [
+          { name: "WELCOME & REVIEWS", textChans: ["welcome", "terms-of-service", "announcements", "customer-vouches"], voiceChans: ["Support Lobby"] },
+          { name: "PRODUCTS & CATALOG", textChans: ["product-showcase", "pricing-list", "stock-updates", "giveaways"], voiceChans: ["Sales Room"] },
+          { name: "SUPPORT TICKETS", textChans: ["open-ticket", "ticket-faq", "billing-help"], voiceChans: ["1-on-1 Support"] },
+          { name: "VIP CLIENT AREA", textChans: ["vip-chat", "exclusive-deals", "beta-access"], voiceChans: ["VIP Voice"] },
+          { name: "ADMIN & FULFILLMENT", textChans: ["orders-log", "admin-commands", "staff-chat"], voiceChans: ["Admin Office"] }
+        ];
+      } else if (p.includes("stream") || p.includes("youtube") || p.includes("twitch") || archetype === "creator") {
+        categoryPool = [
+          { name: "STREAM HUB", textChans: ["welcome", "stream-announcements", "youtube-feed", "socials"], voiceChans: ["Live Stream Audio"] },
+          { name: "COMMUNITY CHAT", textChans: ["general-chat", "fan-art", "clip-submissions", "memes"], voiceChans: ["Community Voice 1", "Community Voice 2"] },
+          { name: "SUBSCRIBER VIP", textChans: ["sub-chat", "sub-giveaways", "movie-night"], voiceChans: ["VIP Sub Lounge"] },
+          { name: "EVENT ORGANIZER", textChans: ["community-events", "tournament-info", "suggestions"], voiceChans: ["Event Stage"] },
+          { name: "MODERATION TEAM", textChans: ["mod-hq", "ticket-support", "bot-spam"], voiceChans: ["Mod Call"] }
+        ];
+      } else if (p.includes("valorant") || p.includes("esports") || p.includes("scrim") || archetype === "esports" || archetype === "gaming") {
+        categoryPool = [
+          { name: "INFORMATION HUB", textChans: ["welcome-and-rules", "server-news", "role-selection", "announcements"], voiceChans: ["Info Lobby"] },
+          { name: "COMMUNITY & CHAT", textChans: ["general-text", "clips-and-highlights", "setup-showcase", "bot-commands"], voiceChans: ["General Voice 1", "General Voice 2"] },
+          { name: "ESPORTS & SCRIMS", textChans: ["lfg-find-team", "scrim-schedule", "match-results", "vod-reviews"], voiceChans: ["Team Alpha Voice", "Team Bravo Voice"] },
+          { name: "TOURNAMENT BRACKETS", textChans: ["rules-and-prizes", "bracket-announcements", "roster-submit"], voiceChans: ["Tournament Stage"] },
+          { name: "STAFF COMMAND", textChans: ["mod-lounge", "audit-logs", "support-tickets"], voiceChans: ["Staff Meeting"] }
+        ];
+      } else {
+        // GENERAL SMART AI STRUCTURE
+        categoryPool = [
+          { name: "WELCOME & INFORMATION", textChans: ["welcome", "rules-and-info", "announcements", "roles"], voiceChans: ["Lobby Voice"] },
+          { name: "GENERAL COMMUNITY", textChans: ["general-chat", "media-and-memes", "bot-commands", "off-topic"], voiceChans: ["Voice Lounge 1", "Voice Lounge 2"] },
+          { name: "TOPIC DISCUSSION", textChans: ["topic-chat-1", "topic-chat-2", "creations-and-art", "showcase"], voiceChans: ["Discussion Room"] },
+          { name: "VIP MEMBERS LOUNGE", textChans: ["vip-general", "exclusive-chat", "vip-perks"], voiceChans: ["VIP Lounge Voice"] },
+          { name: "STAFF & ADMINISTRATION", textChans: ["staff-chat", "support-tickets", "bot-control"], voiceChans: ["Admin Meeting"] }
+        ];
+      }
+
+      // Build out structure dynamically up to catCount and chanCount requested by user
+      let categories = [];
+
+      for (let i = 0; i < catCount; i++) {
+        let poolCat = categoryPool[i % categoryPool.length];
+        let cName = poolCat ? poolCat.name : `CATEGORY #${i + 1}`;
+        if (i >= categoryPool.length) {
+          cName = `COMMUNITY SECTION #${i - categoryPool.length + 1}`;
+        }
+
+        let channels = [];
+        let baseText = poolCat ? poolCat.textChans : ["chat-room", "discussion", "media", "announcements"];
+        let baseVoice = poolCat ? poolCat.voiceChans : ["Voice Room"];
+
+        for (let j = 0; j < chanCount; j++) {
+          let isVoice = (j >= chanCount - 1) && (chanCount > 1); // Make last channel voice if count > 1
+          let chanName = "";
+
+          if (isVoice) {
+            let vIndex = j % baseVoice.length;
+            chanName = `${baseVoice[vIndex]} ${j > 1 ? (j + 1) : ''}`.trim();
+          } else {
+            let tIndex = j % baseText.length;
+            let rawName = baseText[tIndex];
+            chanName = (j >= baseText.length) ? `${rawName}-${j + 1}` : rawName;
+          }
+
+          channels.push({
+            name: chanName,
+            type: isVoice ? "voice" : "text",
+            is_private: cName.includes("STAFF") || cName.includes("ADMIN")
+          });
+        }
+
+        categories.push({ name: cName, channels: channels });
+      }
+
+      return categories;
+    }
+
     function generateLayout() {
       const gName = document.getElementById('guildNameInput').value.trim() || "My Custom Discord Server";
-      const gId = document.getElementById('guildIdInput').value.trim() || "123456789012345678";
+      const gId = document.getElementById('guildIdInput').value.trim(); // Removed default hardcoded ID
       const catCount = parseInt(document.getElementById('catRangeInput').value);
       const chanCount = parseInt(document.getElementById('chanRangeInput').value);
       const theme = document.getElementById('themeSelect').value;
       const preset = document.getElementById('presetSelect').value;
+      const promptText = document.getElementById('promptInput').value.trim();
 
       currentBlueprint.guild_name = gName;
       currentBlueprint.guild_id = gId;
       currentBlueprint.theme = theme;
       currentBlueprint.separator = activeSeparator;
 
-      // Base Preset Layout Templates
-      let catNames = ["WELCOME & INFO", "GENERAL CHATS", "VOICE ROOMS", "MEDIA & CLIPS", "BOT COMMANDS", "VIP AREA", "STAFF HQ", "ARCHIVES"];
-      if (preset === 'esports') {
-        catNames = ["TOURNAMENT LOBBY", "MATCH BRACKETS", "TEAM VOICE", "RULES & REPLAYS", "STAFF COMMAND", "VIP LOUNGE", "COMMUNITY", "SPONSORS"];
-      } else if (preset === 'store') {
-        catNames = ["WELCOME & PRICING", "PRODUCT CATALOG", "CUSTOMER REVIEWS", "SUPPORT TICKETS", "COMMUNITY CHAT", "ANNOUNCEMENTS", "VIP LOUNGE", "ADMIN HQ"];
-      } else if (preset === 'creator') {
-        catNames = ["WELCOME & SOCIALS", "STREAM ANNOUNCEMENTS", "VIP MEMBERS", "FAN ART & CLIPS", "GENERAL CHAT", "VOICE LOUNGES", "MODERATION", "SPONSORS"];
-      }
+      // Generate Smart AI Named Categories & Channels
+      currentBlueprint.categories = generateAiNamedCategories(promptText, catCount, chanCount, preset);
 
-      let generatedCategories = [];
-      for (let i = 0; i < catCount; i++) {
-        let name = catNames[i] || `CATEGORY #${i + 1}`;
-        let channels = [];
-        for (let j = 0; j < chanCount; j++) {
-          let isVoice = (j === chanCount - 1) && (chanCount > 1);
-          let cName = isVoice ? `Voice Lounge ${j + 1}` : `chat-room-${j + 1}`;
-          if (i === 0 && j === 0) cName = "welcome";
-          if (i === 0 && j === 1) cName = "announcements";
-
-          channels.push({
-            name: cName,
-            type: isVoice ? "voice" : "text",
-            is_private: i >= catCount - 2 && (name.includes("STAFF") || name.includes("ADMIN"))
-          });
-        }
-        generatedCategories.push({ name: name, channels: channels });
-      }
-
-      currentBlueprint.categories = generatedCategories;
       currentBlueprint.roles = [
         { name: "Owner", color: "#f59e0b", permissions: { view: true, send: true, manage: true } },
         { name: "Admin", color: "#06b6d4", permissions: { view: true, send: true, manage: true } },
+        { name: "Moderator", color: "#3b82f6", permissions: { view: true, send: true, manage: false } },
         { name: "VIP Member", color: "#9333ea", permissions: { view: true, send: true, manage: false } },
         { name: "Member", color: "#10b981", permissions: { view: true, send: true, manage: false } }
       ];
@@ -763,13 +856,11 @@
 
       renderBlueprint();
 
-      // Transition to Window 3
       document.getElementById('builderFormSection').classList.add('hidden');
       document.getElementById('previewSection').classList.remove('hidden');
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    // RENDER INTERACTIVE DISCORD BLUEPRINT WORKSPACE
     function renderBlueprint() {
       const treeContainer = document.getElementById('discordTreeContainer');
       const rolesContainer = document.getElementById('rolesList');
@@ -780,10 +871,8 @@
       permsContainer.innerHTML = "";
 
       const sepStr = currentBlueprint.separator ? (currentBlueprint.separator + " ") : "";
-
       let totalChannels = 0;
 
-      // Render Categories & Channels
       currentBlueprint.categories.forEach((cat, cIdx) => {
         totalChannels += cat.channels.length;
 
@@ -822,7 +911,6 @@
         treeContainer.appendChild(catDiv);
       });
 
-      // Render Roles
       currentBlueprint.roles.forEach((r, rIdx) => {
         const rDiv = document.createElement('div');
         rDiv.className = "flex items-center justify-between p-2 rounded-xl bg-slate-950 border border-white/5 text-xs";
@@ -836,7 +924,6 @@
         rolesContainer.appendChild(rDiv);
       });
 
-      // Selected Channel Information Box
       const activeCat = currentBlueprint.categories[selectedCatIndex];
       const activeChan = activeCat ? activeCat.channels[selectedChanIndex] : null;
 
@@ -845,7 +932,6 @@
         document.getElementById('activeChanType').innerText = activeChan.type.toUpperCase();
         document.getElementById('permissionSelectedChannelLabel').innerText = `${sepStr}${activeChan.name}`;
 
-        // Permissions Matrix Simulation
         currentBlueprint.roles.forEach(r => {
           const permDiv = document.createElement('div');
           permDiv.className = "flex items-center justify-between p-2 rounded-lg bg-slate-900/60 border border-white/5";
@@ -859,7 +945,6 @@
         });
       }
 
-      // Sync Titles & Metrics
       document.getElementById('previewGuildNameDisplay').innerText = (currentBlueprint.guild_name || "COMMUNITY SERVER").toUpperCase();
       document.getElementById('themeBadge').innerText = `THEME: ${currentBlueprint.theme.toUpperCase()}`;
       document.getElementById('structureCountsTag').innerText = `${currentBlueprint.categories.length} Cats / ${totalChannels} Chans`;
@@ -941,7 +1026,6 @@
       }
     }
 
-    // SUBMIT DESIGN TO STAFF -> GO TO WINDOW 4 (FINAL TRANSMISSION PAGE)
     async function sendLayoutToStaff() {
       const orderId = "#ORD-" + Math.floor(1000 + Math.random() * 9000);
 
@@ -958,16 +1042,14 @@
         console.warn("Local submission mode active.");
       }
 
-      // Populate Final Confirmation Details
       document.getElementById('finalOrderId').innerText = orderId;
-      document.getElementById('finalGuildId').innerText = currentBlueprint.guild_id || "123456789012345678";
+      document.getElementById('finalGuildId').innerText = currentBlueprint.guild_id || "Not Specified";
       document.getElementById('finalCategoriesCount').innerText = currentBlueprint.categories.length;
 
       let totalChans = 0;
       currentBlueprint.categories.forEach(c => totalChans += c.channels.length);
       document.getElementById('finalChannelsCount').innerText = totalChans;
 
-      // Hide Window 3, Show Window 4
       document.getElementById('previewSection').classList.add('hidden');
       document.getElementById('finalSection').classList.remove('hidden');
       window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -1005,6 +1087,9 @@
     function restartBuilder() {
       showGate();
     }
+
+    // Initialize labels
+    updateLimitsLabels();
   </script>
 </body>
 </html>
